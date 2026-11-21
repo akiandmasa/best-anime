@@ -88,10 +88,38 @@ details.wl .show{border-top:1px solid var(--line);padding:24px 0}
 .missingmsg{padding:80px 0;text-align:center}
 .banner h1{font-size:clamp(1.5rem,4.5vw,2.4rem)}
 
+[hidden]{display:none!important}
+nav .brand{font-family:Georgia,serif;font-weight:700;font-size:1.05rem;color:var(--text);margin-right:auto}
+nav .brand:hover{text-decoration:none}
+.backbtn{display:inline-flex;align-items:center;gap:6px;font:600 .9rem system-ui;color:#fff;background:var(--accent);border-radius:999px;padding:7px 16px}
+.backbtn:hover{text-decoration:none;filter:brightness(1.12)}
+.pager .mid{background:var(--accent);border-color:var(--accent);color:#fff}
+.banner{min-height:300px}
+.banner img{object-position:center 28%}
+.banner .ov{padding-top:110px;background:linear-gradient(rgba(8,8,24,0),rgba(8,8,24,.6) 40%,rgba(8,8,24,.92))}
+.banner .rk{color:#ffd98a}
+.tile .cv img{object-position:center 28%}
+.stars{color:#f2b134;letter-spacing:2px;font-size:1rem;line-height:1.3;margin:2px 0}
+.stars .off{color:rgba(150,150,180,.4)}
+.stars b{font:700 .8rem system-ui;letter-spacing:0;margin-left:6px;color:var(--muted)}
+.banner .stars b{color:#fff}
+.wlist{display:grid;gap:20px;margin:10px 0 50px}
+.wcard{display:grid;grid-template-columns:1fr;background:var(--card);border:1px solid var(--line);border-top:5px solid var(--c);border-radius:18px;overflow:hidden}
+.wcard .wimg{background:linear-gradient(135deg,var(--c),var(--bg2));height:230px;position:relative}
+.wcard .wimg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 28%}
+.wcard .wbody{padding:20px 22px}
+.wcard .rk{font:700 .74rem system-ui;letter-spacing:.12em;text-transform:uppercase;color:var(--c)}
+.wcard h3{font-size:1.3rem;margin:2px 0}
+.wcard .jp{color:var(--muted);font-size:.85rem}
+.wcard p{margin-top:10px}
+.wcard dl{margin-top:14px}
+.wcard .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.wcard .chips span{font-size:.78rem;padding:2px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.wcard .more{display:inline-block;margin-top:14px;font-weight:700;font-size:.88rem}
 </style>
 </head>
 <body>
-<nav><div class="wrap"><b>My Anime</b><a class="back" id="navback" href="#/">All anime</a><div class="tabs" role="tablist" id="tabs"><button role="tab" id="t-fav" aria-selected="true">Favorites</button><button role="tab" id="t-list" aria-selected="false">Watched list</button></div></div></nav>
+<nav><div class="wrap"><a class="brand" href="#/">My Anime</a><div class="tabs" role="tablist" id="tabs"><button role="tab" id="t-fav" aria-selected="true">Favorites</button><button role="tab" id="t-list" aria-selected="false">Watched list</button></div><a class="backbtn" id="navback" href="#/" hidden>← All anime</a></div></nav>
 <div id="home">
 <header class="hero wrap">
   <div class="kicker">Unofficial fan page</div>
@@ -106,11 +134,11 @@ details.wl .show{border-top:1px solid var(--line);padding:24px 0}
 <script>
 /* ============ EDIT HERE ============
  Add a new anime by copying one block below (keep the commas between blocks).
- list:true puts it in the "Watched list" tab instead of Favorites.
+ rating:1-5 is your score (shown as stars). Every anime appears in the Watched list; list:true keeps one out of Favorites.
  Images: images/<slug>/cover.jpg · images/<slug>/characters/<character-name>.jpg · images/<slug>/scenes/scene-1.jpg …
  Missing images show a placeholder with the file path to use. */
 var ANIMES=[
-{slug:"masamune",rank:"#1 · My favorite",color:"#8c8cf0",title:"Masamune-kun's Revenge",jp:"政宗くんのリベンジ",
+{slug:"masamune",rating:5,rank:"#1 · My favorite",color:"#8c8cf0",title:"Masamune-kun's Revenge",jp:"政宗くんのリベンジ",
  tagline:"The revenge was never just about love.",
  desc:["Years ago, Masamune Makabe was a shy, chubby kid harshly rejected by Aki Adagaki. He never forgot it. He got fit, reinvented himself and came back to town with a plan: make her fall for him, then reject her just as coldly.","But revenge is rarely simple. New people, old feelings and a few surprises keep pulling the plan off course."],
  tags:["Romance","Comedy","Revenge","Nostalgic"],
@@ -118,7 +146,7 @@ var ANIMES=[
  take:"My favorite, OMG. It had me emotional, and it still does, to this day.",
  chars:[["Aki Adagaki","The Brutal Princess"],["Masamune Makabe","The Revenge Seeker"],["Yoshino Koiwai","The Hidden Truth"],["Neko Fujinomiya","Unspoken Feelings"],["Kojuro Shuri","The Best Friend"],["Tae Futaba","The Supportive Friend"]],
  scenes:6,quote:"“In another life, perhaps.”"},
-{slug:"married-couple",rank:"#2 · Second favorite",color:"#e8588a",title:"More Than a Married Couple, But Not Lovers",jp:"夫婦以上、恋人未満。",
+{slug:"married-couple",rating:5,rank:"#2 · Second favorite",color:"#e8588a",title:"More Than a Married Couple, But Not Lovers",jp:"夫婦以上、恋人未満。",
  tagline:"Married in practice, not in love. Yet.",
  desc:["Two classmates are paired up as a “married couple” in a school program that teaches what married life is really like. They share the daily routine of a couple, even though they aren't actually together.","Sweet, funny and full of moments that sneak up on you."],
  tags:["Romance","Comedy","School life"],
@@ -126,7 +154,7 @@ var ANIMES=[
  take:"My second favorite, OMG. It had me emotional too, and I still think about it to this day.",
  chars:[["Jiro Yuzuki","The husband"],["Akari Watanabe","The wife"]],
  scenes:6,quote:"“More than a married couple…”"},
-{slug:"horimiya",rank:"#3 · Third favorite",color:"#f2a65a",title:"Horimiya",jp:"ホリミヤ",
+{slug:"horimiya",rating:5,rank:"#3 · Third favorite",color:"#f2a65a",title:"Horimiya",jp:"ホリミヤ",
  tagline:"Everyone has a side the world never sees.",
  desc:["Kyoko Hori is popular and polished at school, but at home she's busy and low-key. Izumi Miyamura seems like a quiet, gloomy classmate, but he hides piercings and tattoos.","When they run into each other outside school, each discovers the other's hidden side, and a warm, close bond begins."],
  tags:["Romance","Slice of life","Wholesome"],
@@ -134,7 +162,7 @@ var ANIMES=[
  take:"Third favorite! Warm, sweet and so easy to love.",
  chars:[["Kyoko Hori","Popular on the outside"],["Izumi Miyamura","Quiet with a hidden side"],["Yuki Yoshikawa","Classmate"],["Tooru Ishikawa","Classmate"],["Kakeru Sengoku","Classmate"],["Remi Ayasaki","Classmate"]],
  scenes:6,quote:"“You only see part of a person until you look closer.”"},
-{slug:"gatherer",list:true,rank:"Watched",color:"#6fd0c4",title:"A Gatherer's Adventure in Isekai",jp:"素材採取家の異世界旅行記",
+{slug:"gatherer",rating:5,list:true,rank:"Watched",color:"#6fd0c4",title:"A Gatherer's Adventure in Isekai",jp:"素材採取家の異世界旅行記",
  tagline:"A search skill and a whole new world.",
  desc:["Takeru Kamishiro was an ordinary office worker until he's summoned to Madeus, a world of swords and magic. He starts his new life with enhanced strength, powerful magic and a rare “search” skill that finds valuable items.","A gentle journey about exploring, gathering and enjoying the road."],
  tags:["Isekai","Adventure","Cozy"],
@@ -142,7 +170,7 @@ var ANIMES=[
  take:"A gentle adventure I love, with a great balance of exploring and relaxing.",
  chars:[["Takeru Kamishiro","The Gatherer"],["Bee","Main cast"],["Brolite","Main cast"]],
  scenes:6,quote:"“Every road is a new adventure.”"},
-{slug:"alya",rank:"Hit me like my top two",color:"#7fb4ff",title:"Alya Sometimes Hides Her Feelings in Russian",jp:"時々ボソッとロシア語でデレる隣のアーリャさん",
+{slug:"alya",rating:5,rank:"Hit me like my top two",color:"#7fb4ff",title:"Alya Sometimes Hides Her Feelings in Russian",jp:"時々ボソッとロシア語でデレる隣のアーリャさん",
  tagline:"She says it in Russian. He understands every word.",
  desc:["Alya is the admired, composed student council beauty who quietly murmurs sweet things in Russian, sure that nobody next to her understands. Her seatmate Masachika has a secret of his own.","It hit different, emotionally. Right up there with my top two."],
  tags:["Romance","Comedy","School life"],
@@ -150,7 +178,7 @@ var ANIMES=[
  take:"It hit me emotionally, just like my first and second favorites.",
  chars:[["Alisa “Alya” Kujo","The Student Council beauty"],["Masachika Kuze","The seatmate with a secret"],["Yuki Suou","Student council"],["Maria Kujo","Alya's family"],["Nonoa Miyamae","Classmate"],["Ayano Kimishima","Student council"]],
  scenes:6,quote:"“Some feelings are easier said in another language.”"},
-{slug:"iceblade",rank:"Amazing",color:"#c7a0ff",title:"The Iceblade Sorcerer Shall Rule the World",jp:"冰剣の魔術師が世界を統べる",
+{slug:"iceblade",rating:5,rank:"Amazing",color:"#c7a0ff",title:"The Iceblade Sorcerer Shall Rule the World",jp:"冰剣の魔術師が世界を統べる",
  tagline:"The strongest sorcerer is sitting in the back row.",
  desc:["Ray White is a sorcerer who helped win a devastating war. Now he enrolls at an elite magic academy while hiding who he really is, posing as a commoner.","The wealthier students look down on him, but he quickly makes friends, and a conspiracy troubling the school gives him something to deal with."],
  tags:["Fantasy","Magic","Action","Academy"],
@@ -165,35 +193,55 @@ function slug(t){return t.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-
 function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML}
 function ph(path,alt,cls){return '<div class="ph '+(cls||'')+'" data-path="'+path+'"><img src="'+path+'" alt="'+esc(alt)+'" loading="lazy" onerror="this.parentNode.classList.add(\'missing\')"></div>'}
 function body(a){var p='images/'+a.slug+'/';
- return '<div class="banner"><img src="'+p+'cover.jpg" alt="" onerror="this.remove()"><div class="ov"><div class="rk">'+esc(a.rank)+'</div><h1>'+esc(a.title)+'</h1><div class="jp">'+esc(a.jp)+' · '+esc(a.tagline)+'</div></div></div>'
+ return '<div class="banner"><img src="'+p+'cover.jpg" alt="" onerror="this.remove()"><div class="ov"><div class="rk">'+esc(a.rank)+'</div>'+stars(a.rating)+'<h1>'+esc(a.title)+'</h1><div class="jp">'+esc(a.jp)+' · '+esc(a.tagline)+'</div></div></div>'
  +'<div class="cols"><div class="box"><h3>The story</h3>'+a.desc.map(function(d){return '<p>'+esc(d)+'</p>'}).join('')
  +'<div class="tags">'+a.tags.map(function(t){return '<span>'+esc(t)+'</span>'}).join('')+'</div>'
- +'<div class="take"><b>My take</b>'+esc(a.take)+'</div></div>'
+ +'<div class="take"><b>My opinion</b>'+esc(a.take)+'</div></div>'
  +'<div class="box"><h3>Quick facts</h3><dl>'+a.facts.map(function(f){return '<dt>'+esc(f[0])+'</dt><dd>'+esc(f[1])+'</dd>'}).join('')+'</dl></div></div>'
  +'<h3 class="sub">Characters</h3><div class="chars">'+a.chars.map(function(c){return '<div class="ch">'+ph(p+'characters/'+slug(c[0])+'.jpg',c[0])+'<div class="t"><b>'+esc(c[0])+'</b><small>'+esc(c[1])+'</small></div></div>'}).join('')+'</div>'
  +'<h3 class="sub">Favorite scenes</h3><div class="shots">'+Array.apply(null,Array(a.scenes)).map(function(_,k){return ph(p+'scenes/scene-'+(k+1)+'.jpg',a.title+' scene '+(k+1))}).join('')+'</div>'
  +'<p class="quote">'+esc(a.quote)+'</p>'}
+function stars(n){n=Math.max(0,Math.min(5,Math.round(n==null?5:n)));return '<div class="stars" role="img" aria-label="Rating '+n+' out of 5">'+'★'.repeat(n)+'<span class="off">'+'★'.repeat(5-n)+'</span><b>'+n+'/5</b></div>'}
+function wcard(a){
+  return '<article class="wcard" style="--c:'+a.color+'"><div class="wimg"><img src="images/'+a.slug+'/cover.jpg" alt="" loading="lazy" onerror="this.remove()"></div><div class="wbody">'
+   +'<div class="rk">'+esc(a.rank)+'</div><h3>'+esc(a.title)+'</h3><div class="jp">'+esc(a.jp)+'</div>'+stars(a.rating)
+   +'<div class="take"><b>My opinion</b>'+esc(a.take)+'</div>'
+   +a.desc.map(function(d){return '<p>'+esc(d)+'</p>'}).join('')
+   +'<div class="tags">'+a.tags.map(function(t){return '<span>'+esc(t)+'</span>'}).join('')+'</div>'
+   +'<dl>'+a.facts.map(function(f){return '<dt>'+esc(f[0])+'</dt><dd>'+esc(f[1])+'</dd>'}).join('')+'</dl>'
+   +'<div class="chips" aria-label="Characters">'+a.chars.map(function(c){return '<span>'+esc(c[0])+'</span>'}).join('')+'</div>'
+   +'<a class="more" href="#/'+encodeURIComponent(a.slug)+'">See characters and scenes →</a>'
+   +'</div></article>';
+}
 function tile(a){
   return '<a class="tile" style="--c:'+a.color+'" href="#/'+encodeURIComponent(a.slug)+'">'
    +'<div class="cv"><img src="images/'+a.slug+'/cover.jpg" alt="" loading="lazy" onerror="this.remove()"></div>'
-   +'<div class="tb"><div class="rk">'+esc(a.rank)+'</div><h3>'+esc(a.title)+'</h3><p>'+esc(a.tagline)+'</p><span class="go">Open page →</span></div></a>';
+   +'<div class="tb"><div class="rk">'+esc(a.rank)+'</div>'+stars(a.rating)+'<h3>'+esc(a.title)+'</h3><p>'+esc(a.tagline)+'</p><span class="go">Open page →</span></div></a>';
 }
 $('#fav').innerHTML=ANIMES.filter(function(a){return !a.list}).map(tile).join('');
-$('#watched').innerHTML=ANIMES.filter(function(a){return a.list}).map(tile).join('');
+var allWatched=ANIMES.filter(function(a){return !a.list}).concat(ANIMES.filter(function(a){return a.list}));
+$('#watched').className='wlist';
+$('#watched').innerHTML=allWatched.map(wcard).join('');
+var fromList=false;
+$('#fav').addEventListener('click',function(e){if(e.target.closest('.tile'))fromList=false});
+$('#watched').addEventListener('click',function(e){if(e.target.closest('.more'))fromList=true});
 function tab(w){var f=w==='fav';$('#fav').hidden=!f;$('#watched').hidden=f;
   $('#t-fav').setAttribute('aria-selected',f);$('#t-list').setAttribute('aria-selected',!f)}
-$('#t-fav').onclick=function(){tab('fav')};$('#t-list').onclick=function(){tab('list')};
+$('#t-fav').onclick=function(){location.hash='#/'};
+$('#t-list').onclick=function(){location.hash='#list'};
 function route(){
   var m=location.hash.match(/^#\/(.+)$/),id=m?decodeURIComponent(m[1]):null;
-  var i=ANIMES.findIndex(function(a){return a.slug===id});
-  var home=!id||i<0&&false;
-  if(!id){$('#home').hidden=false;$('#page').hidden=true;$('#tabs').hidden=false;$('#navback').hidden=true;document.title='My Anime | Fan Page';window.scrollTo(0,0);return}
+  var i=id?ANIMES.findIndex(function(a){return a.slug===id}):-1;
+  if(!id){
+    $('#home').hidden=false;$('#page').hidden=true;$('#tabs').hidden=false;$('#navback').hidden=true;
+    tab(location.hash==='#list'?'list':'fav');document.title='My Anime | Fan Page';window.scrollTo(0,0);return}
   $('#home').hidden=true;$('#page').hidden=false;$('#tabs').hidden=true;$('#navback').hidden=false;
-  if(i<0){document.title='Not found | My Anime';$('#page').innerHTML='<div class="missingmsg"><h1>Anime not found</h1><p><a href="#/">Back to all anime</a></p></div>';return}
-  var a=ANIMES[i],pv=ANIMES[(i-1+ANIMES.length)%ANIMES.length],nx=ANIMES[(i+1)%ANIMES.length];
+  if(i<0){$('#navback').href='#/';document.title='Not found | My Anime';$('#page').innerHTML='<div class="missingmsg"><h1>Anime not found</h1><p><a href="#/">Back to all anime</a></p></div>';return}
+  var a=ANIMES[i],pv=ANIMES[(i-1+ANIMES.length)%ANIMES.length],nx=ANIMES[(i+1)%ANIMES.length],back=(fromList||a.list)?'#list':'#/';
+  $('#navback').href=back;
   document.title=a.title+' | My Anime';
   $('#page').innerHTML='<section class="show" style="--c:'+a.color+';border-top:0;padding-top:30px">'+body(a)+'</section>'
-   +'<div class="pager"><a href="#/'+encodeURIComponent(pv.slug)+'">← '+esc(pv.title)+'</a><a href="#/'+encodeURIComponent(nx.slug)+'">'+esc(nx.title)+' →</a></div>';
+   +'<div class="pager"><a href="#/'+encodeURIComponent(pv.slug)+'">← '+esc(pv.title)+'</a><a class="mid" href="'+back+'">All anime</a><a href="#/'+encodeURIComponent(nx.slug)+'">'+esc(nx.title)+' →</a></div>';
   window.scrollTo(0,0);
 }
 window.addEventListener('hashchange',route);route();

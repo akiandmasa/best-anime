@@ -180,6 +180,15 @@ nav .brand{font-size:.98rem;white-space:nowrap}
 .wcard .wimg{aspect-ratio:21/8;min-height:0}
 .wcard .wimg img{object-position:center 25%}
 }
+
+/* watched cards v4: colored header with name, no picture */
+.wcard{border-top:0}
+.wcard .whead{padding:24px 24px 20px;color:#fff;background:linear-gradient(135deg,color-mix(in srgb,var(--c) 75%,#000),color-mix(in srgb,var(--c) 30%,#12132e))}
+.wcard .whead .rk{color:#ffd98a}
+.wcard .whead h3{font-size:clamp(1.4rem,4.5vw,2rem);line-height:1.2;margin:4px 0}
+.wcard .whead .jp{color:rgba(255,255,255,.8)}
+.wcard .whead .stars b{color:#fff}
+.wcard .wbody .stars{display:none}
 </style>
 </head>
 <body>
@@ -269,8 +278,7 @@ function body(a){var p='images/'+a.slug+'/';
  +'<p class="quote">'+esc(a.quote)+'</p>'}
 function stars(n){n=Math.max(0,Math.min(5,Math.round(n==null?5:n)));return '<div class="stars" role="img" aria-label="Rating '+n+' out of 5">'+'★'.repeat(n)+'<span class="off">'+'★'.repeat(5-n)+'</span><b>'+n+'/5</b></div>'}
 function wcard(a){
-  return '<article class="wcard" style="--c:'+a.color+'"><div class="wimg"><img src="images/'+a.slug+'/cover.jpg" alt="" loading="lazy" onerror="this.remove()"></div><div class="wbody">'
-   +'<div class="rk">'+esc(a.rank)+'</div><h3>'+esc(a.title)+'</h3><div class="jp">'+esc(a.jp)+'</div>'+stars(a.rating)
+  return '<article class="wcard" style="--c:'+a.color+'"><div class="whead"><div class="rk">'+esc(a.rank)+'</div><h3>'+esc(a.title)+'</h3><div class="jp">'+esc(a.jp)+'</div>'+stars(a.rating)+'</div><div class="wbody">'
    +'<div class="take"><b>My opinion</b>'+esc(a.take)+'</div>'
    +a.desc.map(function(d){return '<p>'+esc(d)+'</p>'}).join('')
    +'<div class="tags">'+a.tags.map(function(t){return '<span>'+esc(t)+'</span>'}).join('')+'</div>'

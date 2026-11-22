@@ -173,6 +173,13 @@ nav .brand{font-size:.98rem;white-space:nowrap}
 .banner .ov{padding:34px 26px 30px;background:none;text-align:left}
 .banner h1{font-size:clamp(1.8rem,5.5vw,3rem);line-height:1.15;margin:6px 0}
 @media(max-width:700px){.banner .ov{padding:26px 20px 24px}}
+
+/* watched cards v3: image always on top, never a tall crop */
+@media(min-width:800px){
+.wcard{grid-template-columns:1fr}
+.wcard .wimg{aspect-ratio:21/8;min-height:0}
+.wcard .wimg img{object-position:center 25%}
+}
 </style>
 </head>
 <body>

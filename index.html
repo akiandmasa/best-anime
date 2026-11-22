@@ -147,7 +147,8 @@ nav .brand{font-size:.98rem;white-space:nowrap}
  Add a new anime by copying one block below (keep the commas between blocks).
  rating:1-5 is your score (shown as stars). Every anime appears in the Watched list; list:true keeps one out of Favorites.
  Images: images/<slug>/cover.jpg · images/<slug>/characters/<character-name>.jpg · images/<slug>/scenes/scene-1.jpg …
- Missing images show a placeholder with the file path to use. */
+ Missing images show a placeholder with the file path to use.
+ Want more scenes? Just save extra pictures as scene-7.jpg, scene-8.jpg ... (up to scene-24.jpg) in the same scenes folder. They show up on their own, no editing needed. */
 var ANIMES=[
 {slug:"masamune",rating:5,rank:"#1 · My favorite",color:"#8c8cf0",title:"Masamune-kun's Revenge",jp:"政宗くんのリベンジ",
  tagline:"The revenge was never just about love.",
@@ -202,6 +203,7 @@ var ANIMES=[
 var $=function(s){return document.querySelector(s)};
 function slug(t){return t.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
 function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML}
+function phx(path,alt){return '<div class="ph"><img src="'+path+'" alt="'+esc(alt)+'" loading="lazy" onerror="this.parentNode.remove()"></div>'}
 function ph(path,alt,cls){return '<div class="ph '+(cls||'')+'" data-path="'+path+'"><img src="'+path+'" alt="'+esc(alt)+'" loading="lazy" onerror="this.parentNode.classList.add(\'missing\')"></div>'}
 function body(a){var p='images/'+a.slug+'/';
  return '<div class="banner"><img src="'+p+'cover.jpg" alt="" onerror="this.remove()"><div class="ov"><div class="rk">'+esc(a.rank)+'</div>'+stars(a.rating)+'<h1>'+esc(a.title)+'</h1><div class="jp">'+esc(a.jp)+' · '+esc(a.tagline)+'</div></div></div>'
@@ -210,7 +212,7 @@ function body(a){var p='images/'+a.slug+'/';
  +'<div class="take"><b>My opinion</b>'+esc(a.take)+'</div></div>'
  +'<div class="box"><h3>Quick facts</h3><dl>'+a.facts.map(function(f){return '<dt>'+esc(f[0])+'</dt><dd>'+esc(f[1])+'</dd>'}).join('')+'</dl></div></div>'
  +'<h3 class="sub">Characters</h3><div class="chars">'+a.chars.map(function(c){return '<div class="ch">'+ph(p+'characters/'+slug(c[0])+'.jpg',c[0])+'<div class="t"><b>'+esc(c[0])+'</b><small>'+esc(c[1])+'</small></div></div>'}).join('')+'</div>'
- +'<h3 class="sub">Favorite scenes</h3><div class="shots">'+Array.apply(null,Array(a.scenes)).map(function(_,k){return ph(p+'scenes/scene-'+(k+1)+'.jpg',a.title+' scene '+(k+1))}).join('')+'</div>'
+ +'<h3 class="sub">Favorite scenes</h3><div class="shots">'+Array.apply(null,Array(a.scenes)).map(function(_,k){return ph(p+'scenes/scene-'+(k+1)+'.jpg',a.title+' scene '+(k+1))}).join('')+Array.apply(null,Array(Math.max(0,24-a.scenes))).map(function(_,k){var n=a.scenes+k+1;return phx(p+'scenes/scene-'+n+'.jpg',a.title+' scene '+n)}).join('')+'</div>'
  +'<p class="quote">'+esc(a.quote)+'</p>'}
 function stars(n){n=Math.max(0,Math.min(5,Math.round(n==null?5:n)));return '<div class="stars" role="img" aria-label="Rating '+n+' out of 5">'+'★'.repeat(n)+'<span class="off">'+'★'.repeat(5-n)+'</span><b>'+n+'/5</b></div>'}
 function wcard(a){

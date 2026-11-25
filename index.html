@@ -256,6 +256,12 @@ nav .brand{font-size:.98rem;white-space:nowrap}
 /* trimmed first page */
 #filters{display:none!important}
 .explore{margin-bottom:22px}
+
+/* share button v2 */
+.sharebtn{position:absolute;top:14px;right:14px;z-index:2;display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:rgba(10,10,30,.45);backdrop-filter:blur(6px);color:#fff;font:600 .82rem system-ui;cursor:pointer;transition:background .2s,transform .2s}
+.sharebtn:hover{background:rgba(10,10,30,.7);transform:translateY(-1px)}
+.sharebtn.ok{background:#2e9e6b;border-color:#2e9e6b}
+@media(max-width:480px){.sharebtn{padding:9px}.sharebtn span{display:none}.sharebtn.ok{padding:8px 14px}.sharebtn.ok span{display:inline}}
 </style>
 </head>
 <body>
@@ -346,7 +352,7 @@ function esc(t){var d=document.createElement('div');d.textContent=t;return d.inn
 function phx(path,alt){return '<div class="ph"><img src="'+path+'" alt="'+esc(alt)+'" loading="lazy" onerror="this.parentNode.remove()"></div>'}
 function ph(path,alt,cls){return '<div class="ph '+(cls||'')+'" data-path="'+path+'"><img src="'+path+'" alt="'+esc(alt)+'" loading="lazy" onerror="this.parentNode.classList.add(\'missing\')"></div>'}
 function body(a){var p='images/'+a.slug+'/';
- return '<div class="banner"><div class="ov"><div class="rk">'+esc(a.rank)+'</div>'+stars(a.rating)+'<h1>'+esc(a.title)+'</h1><div class="jp">'+esc(a.jp)+' · '+esc(a.tagline)+'</div></div></div>'
+ return '<div class="banner">'+shareBtn()+'<div class="ov"><div class="rk">'+esc(a.rank)+'</div>'+stars(a.rating)+'<h1>'+esc(a.title)+'</h1><div class="jp">'+esc(a.jp)+' · '+esc(a.tagline)+'</div></div></div>'
  +'<div class="cols"><div class="box"><h3>The story</h3>'+a.desc.map(function(d){return '<p>'+esc(d)+'</p>'}).join('')
  +'<div class="tags">'+a.tags.map(function(t){return '<span>'+esc(t)+'</span>'}).join('')+'</div>'
  +'<div class="take"><b>My opinion</b>'+esc(a.take)+'</div></div>'
@@ -354,7 +360,7 @@ function body(a){var p='images/'+a.slug+'/';
  +(a.felt?'<div class="felt"><b>What I felt</b><p>'+esc(a.felt)+'</p></div>':'')
  +'<h3 class="sub">Characters</h3><div class="chars">'+a.chars.map(function(c){return '<div class="ch">'+ph(p+'characters/'+slug(c[0])+'.jpg',c[0])+'<div class="t"><b>'+esc(c[0])+'</b><small>'+esc(c[1])+'</small></div></div>'}).join('')+'</div>'
  +'<h3 class="sub">Favorite scenes</h3><div class="shots">'+Array.apply(null,Array(a.scenes)).map(function(_,k){return ph(p+'scenes/scene-'+(k+1)+'.jpg',a.title+' scene '+(k+1))}).join('')+Array.apply(null,Array(Math.max(0,24-a.scenes))).map(function(_,k){var n=a.scenes+k+1;return phx(p+'scenes/scene-'+n+'.jpg',a.title+' scene '+n)}).join('')+'</div>'
- +related(a)+shareBtn()+'<p class="quote">'+esc(a.quote)+'</p>'}
+ +related(a)+'<p class="quote">'+esc(a.quote)+'</p>'}
 function stars(n){n=Math.max(0,Math.min(5,Math.round(n==null?5:n)));return '<div class="stars" role="img" aria-label="Rating '+n+' out of 5">'+'★'.repeat(n)+'<span class="off">'+'★'.repeat(5-n)+'</span><b>'+n+'/5</b></div>'}
 function wcard(a){
   return '<article class="wcard" style="--c:'+a.color+'"><div class="whead"><div class="rk">'+esc(a.rank)+'</div><h3>'+esc(a.title)+'</h3><div class="jp">'+esc(a.jp)+'</div>'+stars(a.rating)+'</div><div class="wbody">'
@@ -427,7 +433,7 @@ function related(a){
  var sc=ANIMES.filter(function(b){return b.slug!==a.slug}).map(function(b){var sh=b.tags.filter(function(t){return a.tags.indexOf(t)>-1});return {b:b,sh:sh}}).filter(function(x){return x.sh.length}).sort(function(x,y){return y.sh.length-x.sh.length}).slice(0,2);
  if(!sc.length)return '';
  return '<h3 class="sub">If you liked this, try</h3><div class="rel">'+sc.map(function(x){return '<a class="relc" style="--c:'+x.b.color+'" href="#/'+encodeURIComponent(x.b.slug)+'"><b>'+esc(x.b.title)+'</b><small>Shares: '+x.sh.map(esc).join(', ')+'</small></a>'}).join('')+'</div>'}
-function shareBtn(){return '<div class="sharerow"><button type="button" class="pill ghost" id="share">Copy link to this page</button></div>'}
+function shareBtn(){return '<button type="button" class="sharebtn" id="share" aria-label="Copy link to this anime"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5"/></svg><span>Copy link</span></button>'}
 
 function route(){
   var m=location.hash.match(/^#\/(.+)$/),id=m?decodeURIComponent(m[1]):null;
@@ -457,7 +463,7 @@ function route(){
   [].forEach.call(document.querySelectorAll('.fchip'),function(x){x.classList.toggle('on',x===b)});
   [].forEach.call(document.querySelectorAll('#fav .tile'),function(tl){tl.hidden=!!g&&tl.getAttribute('data-tags').split('|').indexOf(g)<0})});
  document.addEventListener('click',function(e){var b=e.target.closest('#share');if(!b)return;var u=location.href;
-  var done=function(){b.textContent='Copied!';setTimeout(function(){b.textContent='Copy link to this page'},1600)};
+  var lab=b.querySelector('span');var done=function(){b.classList.add('ok');lab.textContent='Link copied';setTimeout(function(){b.classList.remove('ok');lab.textContent='Copy link'},1800)};
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(u).then(done,done)}
   else{var x=document.createElement('textarea');x.value=u;document.body.appendChild(x);x.select();try{document.execCommand('copy')}catch(_){}document.body.removeChild(x);done()}});
 })();

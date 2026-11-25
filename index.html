@@ -224,6 +224,38 @@ nav .brand{font-size:.98rem;white-space:nowrap}
 .felt p{font:italic 1.15rem/1.65 Georgia,serif;margin-top:8px;color:var(--text)}
 .felt.why{--c:var(--accent);margin:0 0 20px}
 .felt.why p{font-size:1.05rem}
+
+/* features */
+.stats{display:flex;gap:10px;margin:14px 0 4px;flex-wrap:wrap}
+.stats div{flex:1;min-width:100px;text-align:center;padding:12px 8px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+.stats b{display:block;font:700 1.6rem Georgia,serif;color:var(--accent)}
+.stats span{font-size:.78rem;color:var(--muted)}
+.explore{margin:22px 0 4px}
+.explore h2{font-size:1.1rem;margin-bottom:10px}
+.exlist{display:flex;flex-wrap:wrap;gap:8px}
+.exbtn{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--text);font-weight:600;font-size:.88rem}
+.exbtn:hover{text-decoration:none;border-color:var(--accent);color:var(--accent)}
+.exbtn small{font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 7px}
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 16px}
+.fchip{font:600 .8rem system-ui;padding:6px 13px;border-radius:999px;border:1px solid var(--line);background:none;color:var(--muted);cursor:pointer}
+.fchip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.rel{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:10px}
+.relc{display:block;padding:14px 16px;border-radius:14px;border:1px solid var(--line);border-left:5px solid var(--c);background:var(--card);color:var(--text)}
+.relc:hover{text-decoration:none;box-shadow:var(--shadow)}
+.relc small{display:block;color:var(--muted);font-size:.8rem;margin-top:2px}
+.sharerow{margin:18px 0 0}
+.steps{list-style:none;counter-reset:s;display:grid;gap:10px}
+.steps li{counter-increment:s;border:1px solid var(--line);border-left:5px solid var(--c);border-radius:14px;background:var(--card)}
+.steps a{display:block;padding:14px 16px 14px 52px;position:relative;color:var(--text)}
+.steps a:hover{text-decoration:none;box-shadow:var(--shadow)}
+.steps a::before{content:counter(s);position:absolute;left:16px;top:10px;font:700 1.5rem Georgia,serif;color:var(--c)}
+.steps span{display:block;color:var(--muted);font-size:.88rem}
+.felt .mt{font-style:normal;font-weight:700}
+.felt .lk{font:600 .88rem system-ui;margin-top:10px}
+.tchip small{font-weight:400;color:var(--muted)}
+/* trimmed first page */
+#filters{display:none!important}
+.explore{margin-bottom:22px}
 </style>
 </head>
 <body>
@@ -234,7 +266,7 @@ nav .brand{font-size:.98rem;white-space:nowrap}
   <h1>The anime I watched and loved.</h1>
   <p>Romance, revenge, magic, nostalgia and a little isekai. Click any anime to open its own page with the story, characters and scenes.</p>
 </header>
-<main class="wrap"><section id="top3" class="top3" aria-labelledby="t3h"><div class="t3head"><h2 id="t3h">Top 3 · The ones that made me tear up</h2><p>Quiet moments and big speeches that hit me in the feelings, and I still can't fully explain why.</p></div><div id="t3list" class="t3list"></div></section><div class="shelf"><h2 id="shelf-title">Favorites</h2><span>Tap a card to open its page</span></div><div id="fav" class="grid-tiles"></div><div id="watched" class="grid-tiles" hidden></div></main>
+<main class="wrap"><section id="top3" class="top3" aria-labelledby="t3h"><div class="t3head"><h2 id="t3h">Top 3 · The ones that made me tear up</h2><p>Quiet moments and big speeches that hit me in the feelings, and I still can't fully explain why.</p></div><div id="t3list" class="t3list"></div></section><div id="stats" class="stats"></div><section id="explore" class="explore"><h2>Explore</h2><div id="exlist" class="exlist"></div></section><div class="shelf"><h2 id="shelf-title">Favorites</h2><span>Tap a card to open its page</span></div><div id="filters" class="filters" aria-label="Filter by genre"></div><div id="fav" class="grid-tiles"></div><div id="watched" class="grid-tiles" hidden></div></main>
 </div>
 <main class="wrap" id="page" hidden></main>
 <footer><div class="wrap"><p>An unofficial fan page made with love. All titles, characters and images belong to their respective creators, studios and publishers.</p></div></footer>
@@ -322,7 +354,7 @@ function body(a){var p='images/'+a.slug+'/';
  +(a.felt?'<div class="felt"><b>What I felt</b><p>'+esc(a.felt)+'</p></div>':'')
  +'<h3 class="sub">Characters</h3><div class="chars">'+a.chars.map(function(c){return '<div class="ch">'+ph(p+'characters/'+slug(c[0])+'.jpg',c[0])+'<div class="t"><b>'+esc(c[0])+'</b><small>'+esc(c[1])+'</small></div></div>'}).join('')+'</div>'
  +'<h3 class="sub">Favorite scenes</h3><div class="shots">'+Array.apply(null,Array(a.scenes)).map(function(_,k){return ph(p+'scenes/scene-'+(k+1)+'.jpg',a.title+' scene '+(k+1))}).join('')+Array.apply(null,Array(Math.max(0,24-a.scenes))).map(function(_,k){var n=a.scenes+k+1;return phx(p+'scenes/scene-'+n+'.jpg',a.title+' scene '+n)}).join('')+'</div>'
- +'<p class="quote">'+esc(a.quote)+'</p>'}
+ +related(a)+shareBtn()+'<p class="quote">'+esc(a.quote)+'</p>'}
 function stars(n){n=Math.max(0,Math.min(5,Math.round(n==null?5:n)));return '<div class="stars" role="img" aria-label="Rating '+n+' out of 5">'+'★'.repeat(n)+'<span class="off">'+'★'.repeat(5-n)+'</span><b>'+n+'/5</b></div>'}
 function wcard(a){
   return '<article class="wcard" style="--c:'+a.color+'"><div class="whead"><div class="rk">'+esc(a.rank)+'</div><h3>'+esc(a.title)+'</h3><div class="jp">'+esc(a.jp)+'</div>'+stars(a.rating)+'</div><div class="wbody">'
@@ -336,7 +368,7 @@ function wcard(a){
    +'</div></article>';
 }
 function tile(a){
-  return '<a class="tile" style="--c:'+a.color+'" href="#/'+encodeURIComponent(a.slug)+'">'
+  return '<a class="tile" data-tags="'+esc(a.tags.join('|'))+'" style="--c:'+a.color+'" href="#/'+encodeURIComponent(a.slug)+'">'
    +'<div class="cv"><img class="bg" src="images/'+a.slug+'/cover.jpg" alt="" loading="lazy" onerror="this.remove()"><img class="fg" src="images/'+a.slug+'/cover.jpg" alt="" loading="lazy" onerror="this.remove()"></div>'
    +'<div class="tb"><div class="rk">'+esc(a.rank)+'</div>'+stars(a.rating)+'<h3>'+esc(a.title)+'</h3><p>'+esc(a.tagline)+'</p><span class="go">Open page →</span></div></a>';
 }
@@ -351,7 +383,7 @@ var fromList=false;
 var _st=document.getElementById('shelf-title');['t-fav','t-list'].forEach(function(id){var b=document.getElementById(id);if(b)b.addEventListener('click',function(){_st.textContent=id==='t-fav'?'Favorites':'Watched list'})});
 $('#fav').addEventListener('click',function(e){if(e.target.closest('.tile'))fromList=false});
 $('#watched').addEventListener('click',function(e){if(e.target.closest('.more'))fromList=true});
-function tab(w){var f=w==='fav';$('#top3').hidden=!f;$('#fav').hidden=!f;$('#watched').hidden=f;
+function tab(w){var f=w==='fav';$('#top3').hidden=!f;$('#stats').hidden=!f;$('#explore').hidden=!f;$('#filters').hidden=!f;$('#fav').hidden=!f;$('#watched').hidden=f;
   $('#t-fav').setAttribute('aria-selected',f);$('#t-list').setAttribute('aria-selected',!f&&w==='list')}
 $('#t-tier').onclick=function(){location.hash='#/tiers'};
 $('#t-fav').onclick=function(){location.hash='#/'};
@@ -367,6 +399,36 @@ function tierPage(){
  +TIERS.map(function(t){
   var items=t[3].map(by).filter(Boolean).map(function(a,i){return '<a class="tchip" style="--c:'+a.color+'" href="#/'+encodeURIComponent(a.slug)+'">'+(t[0]==='S'?'<i>'+(i+1)+'</i>':'')+'<span>'+esc(a.title)+'</span></a>'}).join('');
   return '<div class="trow"><div class="tlabel" style="background:'+t[1]+'">'+t[0]+'</div><div class="tbody">'+(t[2]?'<div class="tnote">'+esc(t[2])+'</div>':'')+'<div class="tchips">'+(items||'<span class="tempty">Nothing here, and that\'s a good thing.</span>')+'</div></div></div>'}).join('')+'</section>'}
+
+var MOMENTS=[
+{slug:"horimiya",title:"The speech at the end",note:"This is the one that got me. I felt it before I could even think about why, and I teared up."},
+{slug:"angel-next-door",title:"The moment I teared up",note:"It spoils me rotten, and somewhere in there it made me tear up for real."},
+{slug:"masamune",title:"Still hits me",note:"I've been emotional about this one since the first time I watched it, and I still am."}];
+var PLAN=[];
+var SONGS=[];
+function byslug(sl){return ANIMES.filter(function(a){return a.slug===sl})[0]}
+function chip(a){return '<a class="tchip" style="--c:'+a.color+'" href="#/'+encodeURIComponent(a.slug)+'"><span>'+esc(a.title)+'</span></a>'}
+function pageWrap(kicker,h,intro,inner){return '<section class="tiers"><div class="kicker">'+kicker+'</div><h1>'+h+'</h1><p class="tl-intro">'+intro+'</p>'+inner+'</section>'}
+function empty(msg){return '<div class="felt" style="--c:var(--muted)"><b>Coming soon</b><p>'+esc(msg)+'</p></div>'}
+var PAGES={
+ moments:function(){return pageWrap('Moments that hit me','The scenes that got me.','The moments I still think about, and why.',
+  MOMENTS.map(function(m){var a=byslug(m.slug);return '<div class="felt" style="--c:'+a.color+'"><b>'+esc(a.title)+'</b><p><span class="mt">'+esc(m.title)+'.</span> '+esc(m.note)+'</p><p class="lk"><a href="#/'+encodeURIComponent(a.slug)+'">Open the page →</a></p></div>'}).join(''))},
+ start:function(){var order=['angel-next-door','horimiya','masamune','married-couple','alya','iceblade','gatherer'];
+  return pageWrap('Start here','Where to start.','Not sure what to watch first? Go in this order.',
+  '<div class="felt why" style="--c:var(--accent)"><b>If you only watch one</b><p>Watch The Angel Next Door Spoils Me Rotten.</p></div>'
+  +'<ol class="steps">'+order.map(function(sl){var a=byslug(sl);return '<li style="--c:'+a.color+'"><a href="#/'+encodeURIComponent(a.slug)+'"><b>'+esc(a.title)+'</b><span>'+esc(a.tagline)+'</span></a></li>'}).join('')+'</ol>')},
+ characters:function(){return pageWrap('Characters','All the characters.','Everyone from every anime on this page.',
+  ANIMES.map(function(a){return '<h3 class="sub" style="color:'+a.color+'">'+esc(a.title)+'</h3><div class="tchips" style="margin-bottom:6px">'+a.chars.map(function(c){return '<a class="tchip" style="--c:'+a.color+'" href="#/'+encodeURIComponent(a.slug)+'"><span>'+esc(c[0])+'<small> '+esc(c[1])+'</small></span></a>'}).join('')+'</div>'}).join(''))},
+ next:function(){return pageWrap('Plan to watch','Up next.','What I want to watch next.',
+  PLAN.length?'<ul class="clean">'+PLAN.map(function(p){return '<li>'+esc(p)+'</li>'}).join('')+'</ul>':empty('My list is empty right now. Check back soon.'))}
+};
+var EXPLORE=[["moments","Moments that hit me"],["start","Where to start"],["characters","All characters"],["next","Plan to watch"]];
+function related(a){
+ var sc=ANIMES.filter(function(b){return b.slug!==a.slug}).map(function(b){var sh=b.tags.filter(function(t){return a.tags.indexOf(t)>-1});return {b:b,sh:sh}}).filter(function(x){return x.sh.length}).sort(function(x,y){return y.sh.length-x.sh.length}).slice(0,2);
+ if(!sc.length)return '';
+ return '<h3 class="sub">If you liked this, try</h3><div class="rel">'+sc.map(function(x){return '<a class="relc" style="--c:'+x.b.color+'" href="#/'+encodeURIComponent(x.b.slug)+'"><b>'+esc(x.b.title)+'</b><small>Shares: '+x.sh.map(esc).join(', ')+'</small></a>'}).join('')+'</div>'}
+function shareBtn(){return '<div class="sharerow"><button type="button" class="pill ghost" id="share">Copy link to this page</button></div>'}
+
 function route(){
   var m=location.hash.match(/^#\/(.+)$/),id=m?decodeURIComponent(m[1]):null;
   var i=id?ANIMES.findIndex(function(a){return a.slug===id}):-1;
@@ -374,6 +436,7 @@ function route(){
     $('#home').hidden=false;$('#page').hidden=true;$('#tabs').hidden=false;$('#navback').hidden=true;
     tab(location.hash==='#list'?'list':'fav');document.title='My Anime | Fan Page';window.scrollTo(0,0);return}
   $('#home').hidden=true;$('#page').hidden=false;$('#tabs').hidden=true;$('#navback').hidden=false;
+  if(PAGES[id]){$('#navback').href='#/';document.title=EXPLORE.filter(function(e){return e[0]===id})[0][1]+' | My Anime';$('#page').innerHTML=PAGES[id]();window.scrollTo(0,0);return}
   if(id==='tiers'){$('#navback').href='#/';document.title='Tier list | My Anime';$('#page').innerHTML=tierPage();window.scrollTo(0,0);return}
   if(i<0){$('#navback').href='#/';document.title='Not found | My Anime';$('#page').innerHTML='<div class="missingmsg"><h1>Anime not found</h1><p><a href="#/">Back to all anime</a></p></div>';return}
   var a=ANIMES[i],pv=ANIMES[(i-1+ANIMES.length)%ANIMES.length],nx=ANIMES[(i+1)%ANIMES.length],back=(fromList||a.list)?'#list':'#/';
@@ -383,6 +446,21 @@ function route(){
    +'<div class="pager"><a href="#/'+encodeURIComponent(pv.slug)+'">← '+esc(pv.title)+'</a><a class="mid" href="'+back+'">All anime</a><a href="#/'+encodeURIComponent(nx.slug)+'">'+esc(nx.title)+' →</a></div>';
   window.scrollTo(0,0);
 }
+(function(){
+ var w=ANIMES.length,t=ANIMES.filter(function(a){return a.cry}).length;
+ $('#stats').innerHTML='<div><b>'+w+'</b><span>anime watched</span></div><div><b>'+t+'</b><span>made me tear up</span></div><div><b>3</b><span>in S tier</span></div>';
+ $('#exlist').innerHTML=EXPLORE.map(function(e){var soon=(e[0]==='next'&&!PLAN.length);return '<a class="exbtn" href="#/'+e[0]+'">'+esc(e[1])+(soon?'<small>soon</small>':'')+'</a>'}).join('');
+ var count={};ANIMES.filter(function(a){return !a.list}).forEach(function(a){a.tags.forEach(function(g){count[g]=(count[g]||0)+1})});
+ var tags=Object.keys(count).sort(function(a,b){return count[b]-count[a]||a.localeCompare(b)});
+ $('#filters').innerHTML='<button type="button" class="fchip on" data-t="">All</button>'+tags.map(function(g){return '<button type="button" class="fchip" data-t="'+esc(g)+'">'+esc(g)+'</button>'}).join('');
+ $('#filters').addEventListener('click',function(e){var b=e.target.closest('.fchip');if(!b)return;var g=b.getAttribute('data-t');
+  [].forEach.call(document.querySelectorAll('.fchip'),function(x){x.classList.toggle('on',x===b)});
+  [].forEach.call(document.querySelectorAll('#fav .tile'),function(tl){tl.hidden=!!g&&tl.getAttribute('data-tags').split('|').indexOf(g)<0})});
+ document.addEventListener('click',function(e){var b=e.target.closest('#share');if(!b)return;var u=location.href;
+  var done=function(){b.textContent='Copied!';setTimeout(function(){b.textContent='Copy link to this page'},1600)};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(u).then(done,done)}
+  else{var x=document.createElement('textarea');x.value=u;document.body.appendChild(x);x.select();try{document.execCommand('copy')}catch(_){}document.body.removeChild(x);done()}});
+})();
 window.addEventListener('hashchange',route);route();
 var lb=$('#lb');
 document.addEventListener('click',function(e){var im=e.target.closest('.ph:not(.missing) img');if(im){$('#lbimg').src=im.src;lb.showModal()}else if(e.target===lb||e.target.id==='lbimg')lb.close()});

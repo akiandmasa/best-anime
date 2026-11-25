@@ -262,6 +262,12 @@ nav .brand{font-size:.98rem;white-space:nowrap}
 .sharebtn:hover{background:rgba(10,10,30,.7);transform:translateY(-1px)}
 .sharebtn.ok{background:#2e9e6b;border-color:#2e9e6b}
 @media(max-width:480px){.sharebtn{padding:9px}.sharebtn span{display:none}.sharebtn.ok{padding:8px 14px}.sharebtn.ok span{display:inline}}
+
+/* character pages */
+a.ch{display:block;color:inherit}
+a.ch:hover{text-decoration:none;transform:translateY(-3px)}
+.cportrait{padding:12px;display:flex;align-items:center;justify-content:center}
+.cportrait .ph{width:100%;max-width:260px;aspect-ratio:3/4;margin:0 auto}
 </style>
 </head>
 <body>
@@ -358,7 +364,7 @@ function body(a){var p='images/'+a.slug+'/';
  +'<div class="take"><b>My opinion</b>'+esc(a.take)+'</div></div>'
  +'<div class="box"><h3>Quick facts</h3><dl>'+a.facts.map(function(f){return '<dt>'+esc(f[0])+'</dt><dd>'+esc(f[1])+'</dd>'}).join('')+'</dl></div></div>'
  +(a.felt?'<div class="felt"><b>What I felt</b><p>'+esc(a.felt)+'</p></div>':'')
- +'<h3 class="sub">Characters</h3><div class="chars">'+a.chars.map(function(c){return '<div class="ch">'+ph(p+'characters/'+slug(c[0])+'.jpg',c[0])+'<div class="t"><b>'+esc(c[0])+'</b><small>'+esc(c[1])+'</small></div></div>'}).join('')+'</div>'
+ +'<h3 class="sub">Characters</h3><div class="chars">'+a.chars.map(function(c){return '<a class="ch" href="#/c/'+a.slug+'/'+slug(c[0])+'">'+ph(p+'characters/'+slug(c[0])+'.jpg',c[0])+'<div class="t"><b>'+esc(c[0])+'</b><small>'+esc(c[1])+'</small></div></a>'}).join('')+'</div>'
  +'<h3 class="sub">Favorite scenes</h3><div class="shots">'+Array.apply(null,Array(a.scenes)).map(function(_,k){return ph(p+'scenes/scene-'+(k+1)+'.jpg',a.title+' scene '+(k+1))}).join('')+Array.apply(null,Array(Math.max(0,24-a.scenes))).map(function(_,k){var n=a.scenes+k+1;return phx(p+'scenes/scene-'+n+'.jpg',a.title+' scene '+n)}).join('')+'</div>'
  +related(a)+'<p class="quote">'+esc(a.quote)+'</p>'}
 function stars(n){n=Math.max(0,Math.min(5,Math.round(n==null?5:n)));return '<div class="stars" role="img" aria-label="Rating '+n+' out of 5">'+'★'.repeat(n)+'<span class="off">'+'★'.repeat(5-n)+'</span><b>'+n+'/5</b></div>'}
@@ -424,7 +430,7 @@ var PAGES={
   '<div class="felt why" style="--c:var(--accent)"><b>If you only watch one</b><p>Watch The Angel Next Door Spoils Me Rotten.</p></div>'
   +'<ol class="steps">'+order.map(function(sl){var a=byslug(sl);return '<li style="--c:'+a.color+'"><a href="#/'+encodeURIComponent(a.slug)+'"><b>'+esc(a.title)+'</b><span>'+esc(a.tagline)+'</span></a></li>'}).join('')+'</ol>')},
  characters:function(){return pageWrap('Characters','All the characters.','Everyone from every anime on this page.',
-  ANIMES.map(function(a){return '<h3 class="sub" style="color:'+a.color+'">'+esc(a.title)+'</h3><div class="tchips" style="margin-bottom:6px">'+a.chars.map(function(c){return '<a class="tchip" style="--c:'+a.color+'" href="#/'+encodeURIComponent(a.slug)+'"><span>'+esc(c[0])+'<small> '+esc(c[1])+'</small></span></a>'}).join('')+'</div>'}).join(''))},
+  ANIMES.map(function(a){return '<h3 class="sub" style="color:'+a.color+'">'+esc(a.title)+'</h3><div class="tchips" style="margin-bottom:6px">'+a.chars.map(function(c){return '<a class="tchip" style="--c:'+a.color+'" href="#/c/'+a.slug+'/'+slug(c[0])+'"><span>'+esc(c[0])+'<small> '+esc(c[1])+'</small></span></a>'}).join('')+'</div>'}).join(''))},
  next:function(){return pageWrap('Plan to watch','Up next.','What I want to watch next.',
   PLAN.length?'<ul class="clean">'+PLAN.map(function(p){return '<li>'+esc(p)+'</li>'}).join('')+'</ul>':empty('My list is empty right now. Check back soon.'))}
 };
@@ -435,6 +441,19 @@ function related(a){
  return '<h3 class="sub">If you liked this, try</h3><div class="rel">'+sc.map(function(x){return '<a class="relc" style="--c:'+x.b.color+'" href="#/'+encodeURIComponent(x.b.slug)+'"><b>'+esc(x.b.title)+'</b><small>Shares: '+x.sh.map(esc).join(', ')+'</small></a>'}).join('')+'</div>'}
 function shareBtn(){return '<button type="button" class="sharebtn" id="share" aria-label="Copy link to this anime"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5"/></svg><span>Copy link</span></button>'}
 
+
+var CNOTES={};
+function charPage(a,ci){
+ var c=a.chars[ci],sl=slug(c[0]),p='images/'+a.slug+'/characters/'+sl+'.jpg',note=CNOTES[a.slug+'/'+sl];
+ var pv=a.chars[(ci-1+a.chars.length)%a.chars.length],nx=a.chars[(ci+1)%a.chars.length];
+ var lk=function(x){return '#/c/'+a.slug+'/'+slug(x[0])};
+ return '<section class="show" style="--c:'+a.color+';border-top:0;padding-top:30px">'
+ +'<div class="banner"><div class="ov"><div class="rk">'+esc(a.title)+'</div><h1>'+esc(c[0])+'</h1><div class="jp">'+esc(c[1])+'</div></div></div>'
+ +'<div class="cols"><div class="box"><h3>About</h3><dl><dt>Role</dt><dd>'+esc(c[1])+'</dd><dt>From</dt><dd><a href="#/'+encodeURIComponent(a.slug)+'">'+esc(a.title)+'</a></dd></dl>'
+ +(note?'<div class="take"><b>My thoughts</b>'+esc(note)+'</div>':'')+'</div>'
+ +'<div class="box cportrait">'+ph(p,c[0])+'</div></div>'
+ +'<h3 class="sub">More from '+esc(a.title)+'</h3><div class="tchips">'+a.chars.map(function(x,i){return i===ci?'':'<a class="tchip" style="--c:'+a.color+'" href="'+lk(x)+'"><span>'+esc(x[0])+'</span></a>'}).join('')+'</div></section>'
+ +'<div class="pager"><a href="'+lk(pv)+'">← '+esc(pv[0])+'</a><a class="mid" href="#/'+encodeURIComponent(a.slug)+'">'+esc(a.title)+'</a><a href="'+lk(nx)+'">'+esc(nx[0])+' →</a></div>'}
 function route(){
   var m=location.hash.match(/^#\/(.+)$/),id=m?decodeURIComponent(m[1]):null;
   var i=id?ANIMES.findIndex(function(a){return a.slug===id}):-1;
@@ -442,6 +461,8 @@ function route(){
     $('#home').hidden=false;$('#page').hidden=true;$('#tabs').hidden=false;$('#navback').hidden=true;
     tab(location.hash==='#list'?'list':'fav');document.title='My Anime | Fan Page';window.scrollTo(0,0);return}
   $('#home').hidden=true;$('#page').hidden=false;$('#tabs').hidden=true;$('#navback').hidden=false;
+  if(id&&id.indexOf('c/')===0){var pr=id.split('/'),an=byslug(pr[1]),ci=an?an.chars.map(function(x){return slug(x[0])}).indexOf(pr[2]):-1;
+    if(ci>-1){$('#navback').href='#/'+encodeURIComponent(an.slug);document.title=an.chars[ci][0]+' | My Anime';$('#page').innerHTML=charPage(an,ci);window.scrollTo(0,0);return}}
   if(PAGES[id]){$('#navback').href='#/';document.title=EXPLORE.filter(function(e){return e[0]===id})[0][1]+' | My Anime';$('#page').innerHTML=PAGES[id]();window.scrollTo(0,0);return}
   if(id==='tiers'){$('#navback').href='#/';document.title='Tier list | My Anime';$('#page').innerHTML=tierPage();window.scrollTo(0,0);return}
   if(i<0){$('#navback').href='#/';document.title='Not found | My Anime';$('#page').innerHTML='<div class="missingmsg"><h1>Anime not found</h1><p><a href="#/">Back to all anime</a></p></div>';return}

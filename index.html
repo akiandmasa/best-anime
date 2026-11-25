@@ -189,17 +189,52 @@ nav .brand{font-size:.98rem;white-space:nowrap}
 .wcard .whead .jp{color:rgba(255,255,255,.8)}
 .wcard .whead .stars b{color:#fff}
 .wcard .wbody .stars{display:none}
+
+/* top 3 category */
+.top3{margin:6px 0 4px;padding:20px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 14%,var(--card)),var(--card))}
+.t3head h2{font-size:1.25rem}
+.t3head p{color:var(--muted);font-size:.9rem;margin:4px 0 14px}
+.t3list{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.t3{display:flex;align-items:center;gap:12px;padding:14px;border-radius:14px;background:var(--bg);border:1px solid var(--line);border-left:5px solid var(--c);color:var(--text)}
+.t3:hover{text-decoration:none;transform:translateY(-3px);box-shadow:var(--shadow)}
+.t3 .n{font:700 1.8rem Georgia,serif;color:var(--c);min-width:1.2ch}
+.t3 .tx{display:flex;flex-direction:column;flex:1;min-width:0;line-height:1.3}
+.t3 small{color:var(--muted);font-size:.78rem}
+.t3 .arr{color:var(--accent);font-weight:700}
+@media(max-width:700px){.t3list{grid-template-columns:1fr}}
+
+/* tier list */
+.tiers{padding:34px 0 50px}
+.tiers h1{font-size:clamp(1.8rem,5vw,2.6rem);margin:6px 0}
+.tl-intro{color:var(--muted);margin-bottom:22px}
+.trow{display:flex;margin-bottom:10px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--card)}
+.tlabel{flex:0 0 64px;display:flex;align-items:center;justify-content:center;font:800 2rem Georgia,serif;color:#1b1b2f}
+.tbody{flex:1;padding:12px 14px;min-width:0;display:flex;flex-direction:column;justify-content:center}
+.tnote{font-size:.8rem;color:var(--muted);margin-bottom:8px}
+.tchips{display:flex;flex-wrap:wrap;gap:8px}
+.tchip{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border-left:5px solid var(--c);background:var(--bg);border-top:1px solid var(--line);border-right:1px solid var(--line);border-bottom:1px solid var(--line);color:var(--text);font-weight:600;font-size:.9rem;line-height:1.25}
+.tchip:hover{text-decoration:none;transform:translateY(-2px);box-shadow:var(--shadow)}
+.tchip i{font:700 1.1rem Georgia,serif;color:var(--c);font-style:normal}
+.tempty{color:var(--muted);font-size:.85rem;padding:6px 0}
+@media(max-width:520px){.tlabel{flex-basis:48px;font-size:1.5rem}}
+
+/* what I felt */
+.felt{margin:18px 0;padding:20px 22px;border-radius:18px;border:1px solid var(--line);border-left:5px solid var(--c,var(--accent));background:linear-gradient(135deg,color-mix(in srgb,var(--c,var(--accent)) 16%,var(--card)),var(--card))}
+.felt b{display:block;font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--c,var(--accent))}
+.felt p{font:italic 1.15rem/1.65 Georgia,serif;margin-top:8px;color:var(--text)}
+.felt.why{--c:var(--accent);margin:0 0 20px}
+.felt.why p{font-size:1.05rem}
 </style>
 </head>
 <body>
-<nav><div class="wrap"><a class="brand" href="#/">My Anime</a><div class="tabs" role="tablist" id="tabs"><button role="tab" id="t-fav" aria-selected="true">Favorites</button><button role="tab" id="t-list" aria-selected="false">Watched list</button></div><a class="backbtn" id="navback" href="#/" hidden>← All anime</a></div></nav>
+<nav><div class="wrap"><a class="brand" href="#/">My Anime</a><div class="tabs" role="tablist" id="tabs"><button role="tab" id="t-fav" aria-selected="true">Favorites</button><button role="tab" id="t-list" aria-selected="false">Watched list</button><button role="tab" id="t-tier" aria-selected="false">Tier list</button></div><a class="backbtn" id="navback" href="#/" hidden>← All anime</a></div></nav>
 <div id="home">
 <header class="hero wrap">
   <div class="kicker">Unofficial fan page</div>
   <h1>The anime I watched and loved.</h1>
   <p>Romance, revenge, magic, nostalgia and a little isekai. Click any anime to open its own page with the story, characters and scenes.</p>
 </header>
-<main class="wrap"><div class="shelf"><h2 id="shelf-title">Favorites</h2><span>Tap a card to open its page</span></div><div id="fav" class="grid-tiles"></div><div id="watched" class="grid-tiles" hidden></div></main>
+<main class="wrap"><section id="top3" class="top3" aria-labelledby="t3h"><div class="t3head"><h2 id="t3h">Top 3 · The ones that made me tear up</h2><p>Quiet moments and big speeches that hit me in the feelings, and I still can't fully explain why.</p></div><div id="t3list" class="t3list"></div></section><div class="shelf"><h2 id="shelf-title">Favorites</h2><span>Tap a card to open its page</span></div><div id="fav" class="grid-tiles"></div><div id="watched" class="grid-tiles" hidden></div></main>
 </div>
 <main class="wrap" id="page" hidden></main>
 <footer><div class="wrap"><p>An unofficial fan page made with love. All titles, characters and images belong to their respective creators, studios and publishers.</p></div></footer>
@@ -212,30 +247,41 @@ nav .brand{font-size:.98rem;white-space:nowrap}
  Missing images show a placeholder with the file path to use.
  Want more scenes? Just save extra pictures as scene-7.jpg, scene-8.jpg ... (up to scene-24.jpg) in the same scenes folder. They show up on their own, no editing needed. */
 var ANIMES=[
-{slug:"masamune",rating:5,rank:"#1 · My favorite",color:"#8c8cf0",title:"Masamune-kun's Revenge",jp:"政宗くんのリベンジ",
- tagline:"The revenge was never just about love.",
- desc:["Years ago, Masamune Makabe was a shy, chubby kid harshly rejected by Aki Adagaki. He never forgot it. He got fit, reinvented himself and came back to town with a plan: make her fall for him, then reject her just as coldly.","But revenge is rarely simple. New people, old feelings and a few surprises keep pulling the plan off course."],
- tags:["Romance","Comedy","Revenge","Nostalgic"],
- facts:[["Studio","Silver Link"],["Season 1","2017 · 12 eps"],["Season 2 (R)","2023 · 12 eps"],["Source","Manga by Hazuki Takeoka"]],
- take:"My favorite, OMG. It had me emotional, and it still does, to this day.",
- chars:[["Aki Adagaki","The Brutal Princess"],["Masamune Makabe","The Revenge Seeker"],["Yoshino Koiwai","The Hidden Truth"],["Neko Fujinomiya","Unspoken Feelings"],["Kojuro Shuri","The Best Friend"],["Tae Futaba","The Supportive Friend"]],
- scenes:6,quote:"“In another life, perhaps.”"},
-{slug:"married-couple",rating:5,rank:"#2 · Second favorite",color:"#e8588a",title:"More Than a Married Couple, But Not Lovers",jp:"夫婦以上、恋人未満。",
- tagline:"Married in practice, not in love. Yet.",
- desc:["Two classmates are paired up as a “married couple” in a school program that teaches what married life is really like. They share the daily routine of a couple, even though they aren't actually together.","Sweet, funny and full of moments that sneak up on you."],
- tags:["Romance","Comedy","School life"],
- facts:[["Genre","Romantic comedy"],["Setting","High school"]],
- take:"My second favorite, OMG. It had me emotional too, and I still think about it to this day.",
- chars:[["Jiro Yuzuki","The husband"],["Akari Watanabe","The wife"]],
- scenes:6,quote:"“More than a married couple…”"},
-{slug:"horimiya",rating:5,rank:"#3 · Third favorite",color:"#f2a65a",title:"Horimiya",jp:"ホリミヤ",
+{slug:"angel-next-door",rating:5,cry:1,rank:"#1 · My favorite",color:"#e9c46a",title:"The Angel Next Door Spoils Me Rotten",jp:"お隣の天使様にいつの間にか駄目人間にされていた件",
+ tagline:"A quiet kindness that spoils you before you notice.",
+ desc:["Amane Fujimiya lives alone and keeps to himself. His neighbor Mahiru Shiina is the school's perfect “angel”, until a rainy evening, when he lends her his umbrella and she starts looking after him.","What follows is slow, gentle and incredibly warm, the kind of story that spoils you rotten without you realizing it."],
+ tags:["Romance","Slice of life","Wholesome","Emotional"],
+ facts:[["Studio","Project No.9"],["Aired","Jan–Mar 2023 · 12 eps"],["Genre","Romance, slice of life"],["Source","Light novel by Saekisan"]],
+ felt:"I wasn't ready for how much this one would get to me. It spoils me rotten, and somewhere along the way I realized I was actually tearing up. It isn't loud. It's the feeling of someone caring about someone, quietly, again and again, until it hits you how rare that is. I can't fully explain it. I just know it stayed with me.",
+ take:"It spoils me rotten, and it genuinely made me tear up. It really changed my view.",
+ chars:[["Amane Fujimiya","The quiet neighbor"],["Mahiru Shiina","The school's angel"],["Itsuki Akazawa","Amane's best friend"],["Chitose Shirakawa","Mahiru's friend"]],
+ scenes:6,quote:"“Being cared for can feel like a miracle.”"},
+{slug:"horimiya",rating:5,cry:2,rank:"#2 · Second favorite",color:"#f2a65a",title:"Horimiya",jp:"ホリミヤ",
  tagline:"Everyone has a side the world never sees.",
  desc:["Kyoko Hori is popular and polished at school, but at home she's busy and low-key. Izumi Miyamura seems like a quiet, gloomy classmate, but he hides piercings and tattoos.","When they run into each other outside school, each discovers the other's hidden side, and a warm, close bond begins."],
  tags:["Romance","Slice of life","Wholesome"],
  facts:[["Studio","CloverWorks"],["Aired","2021 · 13 eps"],["Genre","Romance, slice of life"]],
- take:"Third favorite! Warm, sweet and so easy to love.",
+ felt:"That speech at the end got me. I felt it before I could even think about why, and I teared up. It really changed my view, and I'm still working out how. I can't put it into words yet, but I know it hit different.",
+ take:"Second favorite! That speech at the end hit different, and it really changed my view.",
  chars:[["Kyoko Hori","Popular on the outside"],["Izumi Miyamura","Quiet with a hidden side"],["Yuki Yoshikawa","Classmate"],["Tooru Ishikawa","Classmate"],["Kakeru Sengoku","Classmate"],["Remi Ayasaki","Classmate"]],
  scenes:6,quote:"“You only see part of a person until you look closer.”"},
+{slug:"masamune",rating:5,cry:3,rank:"#3 · Third favorite",color:"#8c8cf0",title:"Masamune-kun's Revenge",jp:"政宗くんのリベンジ",
+ tagline:"The revenge was never just about love.",
+ desc:["Years ago, Masamune Makabe was a shy, chubby kid harshly rejected by Aki Adagaki. He never forgot it. He got fit, reinvented himself and came back to town with a plan: make her fall for him, then reject her just as coldly.","But revenge is rarely simple. New people, old feelings and a few surprises keep pulling the plan off course."],
+ tags:["Romance","Comedy","Revenge","Nostalgic"],
+ facts:[["Studio","Silver Link"],["Season 1","2017 · 12 eps"],["Season 2 (R)","2023 · 12 eps"],["Source","Manga by Hazuki Takeoka"]],
+ felt:"This one has had me emotional since the first time I watched it, and it still does. It's the one I keep coming back to, and the feeling hasn't gone away.",
+ take:"One of my top three, OMG. It had me emotional, and it still does, to this day.",
+ chars:[["Aki Adagaki","The Brutal Princess"],["Masamune Makabe","The Revenge Seeker"],["Yoshino Koiwai","The Hidden Truth"],["Neko Fujinomiya","Unspoken Feelings"],["Kojuro Shuri","The Best Friend"],["Tae Futaba","The Supportive Friend"]],
+ scenes:6,quote:"“In another life, perhaps.”"},
+{slug:"married-couple",rating:5,rank:"#4 · Fourth favorite",color:"#e8588a",title:"More Than a Married Couple, But Not Lovers",jp:"夫婦以上、恋人未満。",
+ tagline:"Married in practice, not in love. Yet.",
+ desc:["Two classmates are paired up as a “married couple” in a school program that teaches what married life is really like. They share the daily routine of a couple, even though they aren't actually together.","Sweet, funny and full of moments that sneak up on you."],
+ tags:["Romance","Comedy","School life"],
+ facts:[["Genre","Romantic comedy"],["Setting","High school"]],
+ take:"My fourth favorite. It hit me emotionally and I still think about it, but it didn't hit as deep as my top three.",
+ chars:[["Jiro Yuzuki","The husband"],["Akari Watanabe","The wife"]],
+ scenes:6,quote:"“More than a married couple…”"},
 {slug:"gatherer",rating:5,list:true,rank:"Watched",color:"#6fd0c4",title:"A Gatherer's Adventure in Isekai",jp:"素材採取家の異世界旅行記",
  tagline:"A search skill and a whole new world.",
  desc:["Takeru Kamishiro was an ordinary office worker until he's summoned to Madeus, a world of swords and magic. He starts his new life with enhanced strength, powerful magic and a rare “search” skill that finds valuable items.","A gentle journey about exploring, gathering and enjoying the road."],
@@ -244,12 +290,12 @@ var ANIMES=[
  take:"A gentle adventure I love, with a great balance of exploring and relaxing.",
  chars:[["Takeru Kamishiro","The Gatherer"],["Bee","Main cast"],["Brolite","Main cast"]],
  scenes:6,quote:"“Every road is a new adventure.”"},
-{slug:"alya",rating:5,rank:"Hit me like my top two",color:"#7fb4ff",title:"Alya Sometimes Hides Her Feelings in Russian",jp:"時々ボソッとロシア語でデレる隣のアーリャさん",
+{slug:"alya",rating:5,rank:"Hit me emotionally",color:"#7fb4ff",title:"Alya Sometimes Hides Her Feelings in Russian",jp:"時々ボソッとロシア語でデレる隣のアーリャさん",
  tagline:"She says it in Russian. He understands every word.",
- desc:["Alya is the admired, composed student council beauty who quietly murmurs sweet things in Russian, sure that nobody next to her understands. Her seatmate Masachika has a secret of his own.","It hit different, emotionally. Right up there with my top two."],
+ desc:["Alya is the admired, composed student council beauty who quietly murmurs sweet things in Russian, sure that nobody next to her understands. Her seatmate Masachika has a secret of his own.","It hit different, emotionally. Moving, but my top three hit different."],
  tags:["Romance","Comedy","School life"],
  facts:[["Studio","Doga Kobo"],["Aired","2024"],["Genre","Romantic comedy"]],
- take:"It hit me emotionally, just like my first and second favorites.",
+ take:"It hit me emotionally, but my top three hit different.",
  chars:[["Alisa “Alya” Kujo","The Student Council beauty"],["Masachika Kuze","The seatmate with a secret"],["Yuki Suou","Student council"],["Maria Kujo","Alya's family"],["Nonoa Miyamae","Classmate"],["Ayano Kimishima","Student council"]],
  scenes:6,quote:"“Some feelings are easier said in another language.”"},
 {slug:"iceblade",rating:5,rank:"Amazing",color:"#c7a0ff",title:"The Iceblade Sorcerer Shall Rule the World",jp:"冰剣の魔術師が世界を統べる",
@@ -273,6 +319,7 @@ function body(a){var p='images/'+a.slug+'/';
  +'<div class="tags">'+a.tags.map(function(t){return '<span>'+esc(t)+'</span>'}).join('')+'</div>'
  +'<div class="take"><b>My opinion</b>'+esc(a.take)+'</div></div>'
  +'<div class="box"><h3>Quick facts</h3><dl>'+a.facts.map(function(f){return '<dt>'+esc(f[0])+'</dt><dd>'+esc(f[1])+'</dd>'}).join('')+'</dl></div></div>'
+ +(a.felt?'<div class="felt"><b>What I felt</b><p>'+esc(a.felt)+'</p></div>':'')
  +'<h3 class="sub">Characters</h3><div class="chars">'+a.chars.map(function(c){return '<div class="ch">'+ph(p+'characters/'+slug(c[0])+'.jpg',c[0])+'<div class="t"><b>'+esc(c[0])+'</b><small>'+esc(c[1])+'</small></div></div>'}).join('')+'</div>'
  +'<h3 class="sub">Favorite scenes</h3><div class="shots">'+Array.apply(null,Array(a.scenes)).map(function(_,k){return ph(p+'scenes/scene-'+(k+1)+'.jpg',a.title+' scene '+(k+1))}).join('')+Array.apply(null,Array(Math.max(0,24-a.scenes))).map(function(_,k){var n=a.scenes+k+1;return phx(p+'scenes/scene-'+n+'.jpg',a.title+' scene '+n)}).join('')+'</div>'
  +'<p class="quote">'+esc(a.quote)+'</p>'}
@@ -280,6 +327,7 @@ function stars(n){n=Math.max(0,Math.min(5,Math.round(n==null?5:n)));return '<div
 function wcard(a){
   return '<article class="wcard" style="--c:'+a.color+'"><div class="whead"><div class="rk">'+esc(a.rank)+'</div><h3>'+esc(a.title)+'</h3><div class="jp">'+esc(a.jp)+'</div>'+stars(a.rating)+'</div><div class="wbody">'
    +'<div class="take"><b>My opinion</b>'+esc(a.take)+'</div>'
+   +(a.felt?'<div class="felt"><b>What I felt</b><p>'+esc(a.felt)+'</p></div>':'')
    +a.desc.map(function(d){return '<p>'+esc(d)+'</p>'}).join('')
    +'<div class="tags">'+a.tags.map(function(t){return '<span>'+esc(t)+'</span>'}).join('')+'</div>'
    +'<dl>'+a.facts.map(function(f){return '<dt>'+esc(f[0])+'</dt><dd>'+esc(f[1])+'</dd>'}).join('')+'</dl>'
@@ -292,6 +340,9 @@ function tile(a){
    +'<div class="cv"><img class="bg" src="images/'+a.slug+'/cover.jpg" alt="" loading="lazy" onerror="this.remove()"><img class="fg" src="images/'+a.slug+'/cover.jpg" alt="" loading="lazy" onerror="this.remove()"></div>'
    +'<div class="tb"><div class="rk">'+esc(a.rank)+'</div>'+stars(a.rating)+'<h3>'+esc(a.title)+'</h3><p>'+esc(a.tagline)+'</p><span class="go">Open page →</span></div></a>';
 }
+
+$('#t3list').innerHTML=ANIMES.filter(function(a){return a.cry}).sort(function(a,b){return a.cry-b.cry}).map(function(a,i){
+ return '<a class="t3" style="--c:'+a.color+'" href="#/'+encodeURIComponent(a.slug)+'"><span class="n">'+(i+1)+'</span><span class="tx"><b>'+esc(a.title)+'</b><small>'+esc(a.jp)+'</small></span><span class="arr">→</span></a>'}).join('');
 $('#fav').innerHTML=ANIMES.filter(function(a){return !a.list}).map(tile).join('');
 var allWatched=ANIMES.filter(function(a){return !a.list}).concat(ANIMES.filter(function(a){return a.list}));
 $('#watched').className='wlist';
@@ -300,10 +351,22 @@ var fromList=false;
 var _st=document.getElementById('shelf-title');['t-fav','t-list'].forEach(function(id){var b=document.getElementById(id);if(b)b.addEventListener('click',function(){_st.textContent=id==='t-fav'?'Favorites':'Watched list'})});
 $('#fav').addEventListener('click',function(e){if(e.target.closest('.tile'))fromList=false});
 $('#watched').addEventListener('click',function(e){if(e.target.closest('.more'))fromList=true});
-function tab(w){var f=w==='fav';$('#fav').hidden=!f;$('#watched').hidden=f;
-  $('#t-fav').setAttribute('aria-selected',f);$('#t-list').setAttribute('aria-selected',!f)}
+function tab(w){var f=w==='fav';$('#top3').hidden=!f;$('#fav').hidden=!f;$('#watched').hidden=f;
+  $('#t-fav').setAttribute('aria-selected',f);$('#t-list').setAttribute('aria-selected',!f&&w==='list')}
+$('#t-tier').onclick=function(){location.hash='#/tiers'};
 $('#t-fav').onclick=function(){location.hash='#/'};
 $('#t-list').onclick=function(){location.hash='#list'};
+
+var TIERS=[["S","#ff7f7f","These hit different and really changed my view.",["angel-next-door","horimiya","masamune"]],
+ ["A","#ffbf7f","Basically S. So close to my top 3, and they moved me too.",["married-couple","alya"]],
+ ["B","#ffdf7f","Really good, and I recommend it.",["iceblade"]],["C","#bfff7f","Enjoyable, but they didn\'t hit me like the rest.",["gatherer"]],["D","#7fffff","",[]],["F","#bf7fff","",[]]];
+function tierPage(){
+ var by=function(sl){return ANIMES.filter(function(a){return a.slug===sl})[0]};
+ return '<section class="tiers"><div class="kicker">My tier list</div><h1>S to F, ranked by feelings.</h1><p class="tl-intro">These three hit different and really changed my view. Tap any anime to open it. Tap one to open it.</p>'
+ +'<div class="felt why"><b>Why these three</b><p>These three didn\'t just entertain me. They hit me in the feelings and changed how I see things. I can\'t fully explain it, and honestly that\'s the point. If you watch them, maybe you\'ll feel it too.</p></div>'
+ +TIERS.map(function(t){
+  var items=t[3].map(by).filter(Boolean).map(function(a,i){return '<a class="tchip" style="--c:'+a.color+'" href="#/'+encodeURIComponent(a.slug)+'">'+(t[0]==='S'?'<i>'+(i+1)+'</i>':'')+'<span>'+esc(a.title)+'</span></a>'}).join('');
+  return '<div class="trow"><div class="tlabel" style="background:'+t[1]+'">'+t[0]+'</div><div class="tbody">'+(t[2]?'<div class="tnote">'+esc(t[2])+'</div>':'')+'<div class="tchips">'+(items||'<span class="tempty">Nothing here, and that\'s a good thing.</span>')+'</div></div></div>'}).join('')+'</section>'}
 function route(){
   var m=location.hash.match(/^#\/(.+)$/),id=m?decodeURIComponent(m[1]):null;
   var i=id?ANIMES.findIndex(function(a){return a.slug===id}):-1;
@@ -311,6 +374,7 @@ function route(){
     $('#home').hidden=false;$('#page').hidden=true;$('#tabs').hidden=false;$('#navback').hidden=true;
     tab(location.hash==='#list'?'list':'fav');document.title='My Anime | Fan Page';window.scrollTo(0,0);return}
   $('#home').hidden=true;$('#page').hidden=false;$('#tabs').hidden=true;$('#navback').hidden=false;
+  if(id==='tiers'){$('#navback').href='#/';document.title='Tier list | My Anime';$('#page').innerHTML=tierPage();window.scrollTo(0,0);return}
   if(i<0){$('#navback').href='#/';document.title='Not found | My Anime';$('#page').innerHTML='<div class="missingmsg"><h1>Anime not found</h1><p><a href="#/">Back to all anime</a></p></div>';return}
   var a=ANIMES[i],pv=ANIMES[(i-1+ANIMES.length)%ANIMES.length],nx=ANIMES[(i+1)%ANIMES.length],back=(fromList||a.list)?'#list':'#/';
   $('#navback').href=back;

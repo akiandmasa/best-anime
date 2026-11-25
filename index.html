@@ -266,7 +266,7 @@ nav .brand{font-size:.98rem;white-space:nowrap}
   <h1>The anime I watched and loved.</h1>
   <p>Romance, revenge, magic, nostalgia and a little isekai. Click any anime to open its own page with the story, characters and scenes.</p>
 </header>
-<main class="wrap"><section id="top3" class="top3" aria-labelledby="t3h"><div class="t3head"><h2 id="t3h">Top 3 · The ones that made me tear up</h2><p>Quiet moments and big speeches that hit me in the feelings, and I still can't fully explain why.</p></div><div id="t3list" class="t3list"></div></section><div id="stats" class="stats"></div><section id="explore" class="explore"><h2>Explore</h2><div id="exlist" class="exlist"></div></section><div class="shelf"><h2 id="shelf-title">Favorites</h2><span>Tap a card to open its page</span></div><div id="filters" class="filters" aria-label="Filter by genre"></div><div id="fav" class="grid-tiles"></div><div id="watched" class="grid-tiles" hidden></div></main>
+<main class="wrap"><section id="top3" class="top3" aria-labelledby="t3h"><div class="t3head"><h2 id="t3h">Top 3 · The ones that hit different</h2><p>Quiet moments and big speeches that hit me in the feelings, and I still can't fully explain why.</p></div><div id="t3list" class="t3list"></div></section><div id="stats" class="stats"></div><section id="explore" class="explore"><h2>Explore</h2><div id="exlist" class="exlist"></div></section><div class="shelf"><h2 id="shelf-title">Favorites</h2><span>Tap a card to open its page</span></div><div id="filters" class="filters" aria-label="Filter by genre"></div><div id="fav" class="grid-tiles"></div><div id="watched" class="grid-tiles" hidden></div></main>
 </div>
 <main class="wrap" id="page" hidden></main>
 <footer><div class="wrap"><p>An unofficial fan page made with love. All titles, characters and images belong to their respective creators, studios and publishers.</p></div></footer>
@@ -448,7 +448,7 @@ function route(){
 }
 (function(){
  var w=ANIMES.length,t=ANIMES.filter(function(a){return a.cry}).length;
- $('#stats').innerHTML='<div><b>'+w+'</b><span>anime watched</span></div><div><b>'+t+'</b><span>made me tear up</span></div><div><b>3</b><span>in S tier</span></div>';
+ $('#stats').innerHTML='<div><b>'+w+'</b><span>anime watched</span></div><div><b>'+t+'</b><span>hit different</span></div><div><b>3</b><span>in S tier</span></div>';
  $('#exlist').innerHTML=EXPLORE.map(function(e){var soon=(e[0]==='next'&&!PLAN.length);return '<a class="exbtn" href="#/'+e[0]+'">'+esc(e[1])+(soon?'<small>soon</small>':'')+'</a>'}).join('');
  var count={};ANIMES.filter(function(a){return !a.list}).forEach(function(a){a.tags.forEach(function(g){count[g]=(count[g]||0)+1})});
  var tags=Object.keys(count).sort(function(a,b){return count[b]-count[a]||a.localeCompare(b)});

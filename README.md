@@ -15,6 +15,7 @@ The Angel Next Door Spoils Me Rotten and Horimiya hit different. I teared up, an
     <img src="https://lanyard.cnrad.dev/api/1284837972897828864?theme=dark&bg=1a1025&borderRadius=15px" alt="Discord Status">
   </a>
 </p>
+
 ## Note
  
 This is an unofficial fan page. The anime and images belong to their creators and studios.

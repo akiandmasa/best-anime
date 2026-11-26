@@ -268,6 +268,49 @@ a.ch{display:block;color:inherit}
 a.ch:hover{text-decoration:none;transform:translateY(-3px)}
 .cportrait{padding:12px;display:flex;align-items:center;justify-content:center}
 .cportrait .ph{width:100%;max-width:260px;aspect-ratio:3/4;margin:0 auto}
+
+/* top 3 special */
+.top3{position:relative;overflow:hidden;border-color:color-mix(in srgb,#f2c46b 45%,var(--line));box-shadow:0 0 0 1px color-mix(in srgb,#f2c46b 18%,transparent),0 14px 50px rgba(242,196,107,.14)}
+.top3::before{content:"";position:absolute;inset:-40%;background:linear-gradient(115deg,transparent 42%,rgba(255,225,150,.16) 50%,transparent 58%);animation:t3shine 6s ease-in-out infinite;pointer-events:none}
+@keyframes t3shine{0%{transform:translateX(-60%)}60%,100%{transform:translateX(60%)}}
+.top3>*{position:relative}
+.t3head h2{background:linear-gradient(90deg,var(--gold),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
+.t3list{grid-template-columns:1fr 1fr}
+.t3-1{grid-column:1/-1;padding:20px 18px;border-left-width:6px;box-shadow:0 0 0 1px color-mix(in srgb,#f2c46b 55%,transparent),0 0 28px rgba(242,196,107,.25);position:relative}
+.t3-1 b{font-size:1.15rem}
+.t3-1::after{content:"\265B  #1";position:absolute;top:8px;right:14px;font:700 .78rem system-ui;letter-spacing:.1em;color:var(--gold)}
+.t3 .n{display:flex;align-items:center;justify-content:center;width:42px;height:42px;min-width:42px;border-radius:50%;font-size:1.2rem;color:#2a1c00;box-shadow:0 3px 10px rgba(0,0,0,.35)}
+.t3-1 .n{width:50px;height:50px;min-width:50px;font-size:1.45rem;background:linear-gradient(135deg,#fff1b8,#f2c46b 55%,#c8902a)}
+.t3-2 .n{background:linear-gradient(135deg,#ffffff,#cfd3dc 55%,#9aa1b0)}
+.t3-3 .n{background:linear-gradient(135deg,#ffd9b8,#d99256 55%,#a35f2a)}
+@media(max-width:700px){.t3list{grid-template-columns:1fr}.t3-1::after{display:none}}
+@media(prefers-reduced-motion:reduce){.top3::before{animation:none}}
+
+/* character profile */
+.cabout{margin-top:8px;line-height:1.65}
+.crel{list-style:none;margin-top:6px}
+.crel li{padding:4px 0;color:var(--text)}
+.crel li::before{content:"\2022  ";color:var(--c,var(--accent))}
+.cols dl{margin-top:4px}
+
+/* phone fixes */
+@media(max-width:520px){
+nav .wrap{gap:6px}
+.tabs{gap:4px}
+.tabs button{font-size:.76rem;padding:6px 10px}
+nav .brand,.brand{font-size:.95rem;white-space:nowrap}
+.top3{padding:16px 14px}
+.t3-1{padding:14px 14px}
+.t3 .tx b{font-size:.98rem}
+.banner .ov{padding-right:58px}
+.pager{display:grid!important;grid-template-columns:1fr 1fr;gap:8px}
+.pager a{text-align:center;justify-content:center;white-space:normal;line-height:1.25;padding:10px 12px}
+.pager .mid{grid-column:1/-1;order:3}
+.trow .tchips{gap:6px}
+.tchip{font-size:.85rem}
+}
+@media(max-width:520px){.hero{padding-left:12px;padding-right:12px}.hero h1{font-size:2rem}}
+.shots:empty,.sub:has(+ .shots:empty){display:none}
 </style>
 </head>
 <body>
@@ -324,7 +367,7 @@ var ANIMES=[
  tags:["Romance","Comedy","School life"],
  facts:[["Genre","Romantic comedy"],["Setting","High school"]],
  take:"My fourth favorite. It hit me emotionally and I still think about it, but it didn't hit as deep as my top three.",
- chars:[["Jiro Yuzuki","The husband"],["Akari Watanabe","The wife"]],
+ chars:[["Jiro Yakuin","The husband","jiro-yuzuki"],["Akari Watanabe","The wife"]],
  scenes:6,quote:"“More than a married couple…”"},
 {slug:"gatherer",rating:5,list:true,rank:"Watched",color:"#6fd0c4",title:"A Gatherer's Adventure in Isekai",jp:"素材採取家の異世界旅行記",
  tagline:"A search skill and a whole new world.",
@@ -349,13 +392,22 @@ var ANIMES=[
  facts:[["Studio","Cloud Hearts"],["Season 1","Jan–Mar 2023"],["Season 2","Announced for Oct 2026"],["Source","Light novel by Nana Mikoshiba"]],
  take:"Amazing!!!! One of my favorites, and I highly recommend it.",
  chars:[["Ray White","The hidden war hero"],["Amelia Rose","Main cast"],["Elisa Griffith","Main cast"],["Rebecca Bradley","Main cast"]],
- scenes:6,quote:"“Strength doesn't need to announce itself.”"}
+ scenes:6,quote:"“Strength doesn't need to announce itself.”"},
+{slug:"lie-in-april",rating:1,list:true,rank:"F tier",color:"#8a8fb0",title:"Your Lie in April",jp:"四月は君の嘘",
+ tagline:"A pianist who can't hear his own music.",
+ desc:["Kousei Arima was a piano prodigy until his mother's death left him unable to hear his own playing. His grey, quiet life changes when he meets Kaori Miyazono, a free-spirited violinist.","A music drama about grief, performing and facing the past."],
+ tags:["Drama","Music","Romance"],
+ facts:[["Studio","A-1 Pictures"],["Aired","Oct 2014–Mar 2015 · 22 eps"],["Source","Manga by Naoshi Arakawa"]],
+ take:"I didn't like it. F tier for me.",
+ chars:[["Kousei Arima","The former piano prodigy"],["Kaori Miyazono","The free-spirited violinist"],["Tsubaki Sawabe","Kousei's childhood friend"],["Ryota Watari","Kousei's friend"]],
+ scenes:0,quote:"“Not for me.”"}
+
 ];
 
 var $=function(s){return document.querySelector(s)};
 function slug(t){return t.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
 function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML}
-function phx(path,alt){return '<div class="ph"><img src="'+path+'" alt="'+esc(alt)+'" loading="lazy" onerror="this.parentNode.remove()"></div>'}
+function phx(path,alt){return '<div class="ph"><img src="'+path+'" alt="'+esc(alt)+'" onerror="this.parentNode.remove()"></div>'}
 function ph(path,alt,cls){return '<div class="ph '+(cls||'')+'" data-path="'+path+'"><img src="'+path+'" alt="'+esc(alt)+'" loading="lazy" onerror="this.parentNode.classList.add(\'missing\')"></div>'}
 function body(a){var p='images/'+a.slug+'/';
  return '<div class="banner">'+shareBtn()+'<div class="ov"><div class="rk">'+esc(a.rank)+'</div>'+stars(a.rating)+'<h1>'+esc(a.title)+'</h1><div class="jp">'+esc(a.jp)+' · '+esc(a.tagline)+'</div></div></div>'
@@ -364,7 +416,7 @@ function body(a){var p='images/'+a.slug+'/';
  +'<div class="take"><b>My opinion</b>'+esc(a.take)+'</div></div>'
  +'<div class="box"><h3>Quick facts</h3><dl>'+a.facts.map(function(f){return '<dt>'+esc(f[0])+'</dt><dd>'+esc(f[1])+'</dd>'}).join('')+'</dl></div></div>'
  +(a.felt?'<div class="felt"><b>What I felt</b><p>'+esc(a.felt)+'</p></div>':'')
- +'<h3 class="sub">Characters</h3><div class="chars">'+a.chars.map(function(c){return '<a class="ch" href="#/c/'+a.slug+'/'+slug(c[0])+'">'+ph(p+'characters/'+slug(c[0])+'.jpg',c[0])+'<div class="t"><b>'+esc(c[0])+'</b><small>'+esc(c[1])+'</small></div></a>'}).join('')+'</div>'
+ +'<h3 class="sub">Characters</h3><div class="chars">'+a.chars.map(function(c){return '<a class="ch" href="#/c/'+a.slug+'/'+slug(c[0])+'">'+ph(p+'characters/'+(c[2]||slug(c[0]))+'.jpg',c[0])+'<div class="t"><b>'+esc(c[0])+'</b><small>'+esc(c[1])+'</small></div></a>'}).join('')+'</div>'
  +'<h3 class="sub">Favorite scenes</h3><div class="shots">'+Array.apply(null,Array(a.scenes)).map(function(_,k){return ph(p+'scenes/scene-'+(k+1)+'.jpg',a.title+' scene '+(k+1))}).join('')+Array.apply(null,Array(Math.max(0,24-a.scenes))).map(function(_,k){var n=a.scenes+k+1;return phx(p+'scenes/scene-'+n+'.jpg',a.title+' scene '+n)}).join('')+'</div>'
  +related(a)+'<p class="quote">'+esc(a.quote)+'</p>'}
 function stars(n){n=Math.max(0,Math.min(5,Math.round(n==null?5:n)));return '<div class="stars" role="img" aria-label="Rating '+n+' out of 5">'+'★'.repeat(n)+'<span class="off">'+'★'.repeat(5-n)+'</span><b>'+n+'/5</b></div>'}
@@ -386,7 +438,7 @@ function tile(a){
 }
 
 $('#t3list').innerHTML=ANIMES.filter(function(a){return a.cry}).sort(function(a,b){return a.cry-b.cry}).map(function(a,i){
- return '<a class="t3" style="--c:'+a.color+'" href="#/'+encodeURIComponent(a.slug)+'"><span class="n">'+(i+1)+'</span><span class="tx"><b>'+esc(a.title)+'</b><small>'+esc(a.jp)+'</small></span><span class="arr">→</span></a>'}).join('');
+ return '<a class="t3 t3-'+(i+1)+'" style="--c:'+a.color+'" href="#/'+encodeURIComponent(a.slug)+'"><span class="n">'+(i+1)+'</span><span class="tx"><b>'+esc(a.title)+'</b><small>'+esc(a.jp)+'</small></span><span class="arr">→</span></a>'}).join('');
 $('#fav').innerHTML=ANIMES.filter(function(a){return !a.list}).map(tile).join('');
 var allWatched=ANIMES.filter(function(a){return !a.list}).concat(ANIMES.filter(function(a){return a.list}));
 $('#watched').className='wlist';
@@ -403,7 +455,7 @@ $('#t-list').onclick=function(){location.hash='#list'};
 
 var TIERS=[["S","#ff7f7f","These hit different and really changed my view.",["angel-next-door","horimiya","masamune"]],
  ["A","#ffbf7f","Basically S. So close to my top 3, and they moved me too.",["married-couple","alya"]],
- ["B","#ffdf7f","Really good, and I recommend it.",["iceblade"]],["C","#bfff7f","Enjoyable, but they didn\'t hit me like the rest.",["gatherer"]],["D","#7fffff","",[]],["F","#bf7fff","",[]]];
+ ["B","#ffdf7f","Really good, and I recommend it.",["iceblade"]],["C","#bfff7f","Enjoyable, but they didn\'t hit me like the rest.",["gatherer"]],["D","#7fffff","",[]],["F","#bf7fff","Didn\'t like it.",["lie-in-april"]]];
 function tierPage(){
  var by=function(sl){return ANIMES.filter(function(a){return a.slug===sl})[0]};
  return '<section class="tiers"><div class="kicker">My tier list</div><h1>S to F, ranked by feelings.</h1><p class="tl-intro">These three hit different and really changed my view. Tap any anime to open it. Tap one to open it.</p>'
@@ -442,14 +494,64 @@ function related(a){
 function shareBtn(){return '<button type="button" class="sharebtn" id="share" aria-label="Copy link to this anime"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5"/></svg><span>Copy link</span></button>'}
 
 
+
+var CINFO={
+"angel-next-door/amane-fujimiya":{jp:"藤宮 周",voice:"Taito Ban",who:"High school student, lives alone",about:["A high school boy who lives alone in a small apartment. He isn't good at organizing, so he often eats out or buys convenience store food.","He's awkward and lonely. One rainy day he lends Mahiru his umbrella, and that starts everything. By the end of the first season he confesses to her and they start dating."],traits:["Awkward","Lonely"],rel:["Mahiru Shiina: neighbor, later girlfriend","Itsuki Akazawa: friend and classmate","His mother: grows fond of Mahiru"]},
+"angel-next-door/mahiru-shiina":{jp:"椎名 真昼",voice:"Manaka Iwami",who:"Amane's classmate, the school's “angel”",about:["She's idolized at school for her beauty, grades and athletic ability, and is nicknamed the “Angel”.","She comes from a wealthy family but lives apart from her parents, who aren't on good terms. Her name means “noon”, given by her father Asahi (“morning sun”). She starts out showing no feelings for Amane, but warms up to him and realizes she may be falling for him."],traits:["Kind","Gorgeous","Top of her class"],rel:["Amane Fujimiya: next-door neighbor, later boyfriend","Chitose Shirakawa: friend","Amane's mother: appreciates how she cares for him"],fact:"Her voice actor, Manaka Iwami, also performs the ending theme covers."},
+"angel-next-door/itsuki-akazawa":{jp:"赤澤 樹",voice:"Taku Yashiro",who:"Amane's best friend",about:["Amane's friend and classmate, and one of his main sources of advice about Mahiru.","He's Chitose's boyfriend and calls her “Chii”."],traits:[],rel:["Amane Fujimiya: friend","Chitose Shirakawa: girlfriend"]},
+"angel-next-door/chitose-shirakawa":{jp:"白河 千歳",voice:"Haruka Shiraishi",who:"Mahiru's friend",about:["Itsuki's girlfriend, and a classmate of Amane. She befriends Mahiru."],traits:[],rel:["Itsuki Akazawa: boyfriend","Mahiru Shiina: friend"]},
+
+"horimiya/kyoko-hori":{jp:"堀 京子",voice:"Haruka Tomatsu",who:"High school student",about:["She excels academically and is very family-oriented. At school she's popular and put together, but at home she dresses plainly and does the housework.","She looks after her younger brother Sota, and her father is Kyosuke. She and Miyamura keep each other's secrets. In childhood she bullied Kakeru Sengoku, and she helps the student council out of guilt."],traits:["Smart","Family-oriented"],rel:["Izumi Miyamura: boyfriend","Yuki Yoshikawa and Remi Ayasaki: friends","Tooru Ishikawa: has feelings for her"]},
+"horimiya/izumi-miyamura":{jp:"宮村 伊澄",voice:"Koki Uchiyama",who:"High school student",about:["At school he's quiet and gloomy, a bookish class loner with glasses. Outside school he has a secret side, with piercings and tattoos.","He discovers Hori's secret while escorting her brother Sota home, and she learns his. After she becomes his girlfriend, he cuts his hair and stops wearing glasses."],traits:["Quiet","Hidden side"],rel:["Kyoko Hori: girlfriend","Tooru Ishikawa: friend","Yuki Yoshikawa: learns his secret"]},
+"horimiya/yuki-yoshikawa":{jp:"",voice:"",who:"Classmate and Hori's friend",about:["Hori's friend. She learns Miyamura's secret after an accident, and later asks him to help her bake cupcakes, which turn out burnt. Ishikawa encourages her to keep baking."],traits:["Sometimes jealous"],rel:["Kyoko Hori: friend","Izumi Miyamura: learns his true appearance","Tooru Ishikawa: encourages her baking"]},
+"horimiya/tooru-ishikawa":{jp:"",voice:"",who:"Classmate and Miyamura's friend",about:["Kind and supportive. He stays friends with Miyamura even though he has feelings for Hori.","He plans to confess to Hori, then falls into a slump after he learns she's dating Miyamura."],traits:["Kind","Supportive"],rel:["Izumi Miyamura: friend","Kyoko Hori: has feelings for her"]},
+"horimiya/kakeru-sengoku":{jp:"",voice:"",who:"Student council member",about:["Hori bullied him in childhood. In episode 2 he's accused of losing the budget report, until Miyamura proves it was dropped by Remi."],traits:[],rel:["Kyoko Hori: childhood bully, now a source of guilt for her","Izumi Miyamura: clashes with him"]},
+"horimiya/remi-ayasaki":{jp:"",voice:"",who:"Student council member",about:["Competitive and provocative. She beats Hori in a table tennis tournament by threatening to steal Miyamura away.","She's also the one who accidentally dropped the budget report in episode 2."],traits:["Competitive","Provocative"],rel:["Kyoko Hori: rival","Izumi Miyamura: she bumps into him"]},
+
+"masamune/masamune-makabe":{jp:"真壁 政宗",voice:"Natsuki Hanae",who:"High school student, Class 2-B",about:["As a chubby kid he befriended Aki, then was rejected and nicknamed “Piggy”. He dieted, trained and changed his family name after his grandfather adopted him.","Now he's handsome, vain and determined, and he's set on revenge: making Aki fall for him, then rejecting her. He calls it his “Dead or Love Plan”. In the end, he affirms his love for Aki."],traits:["Vain","Determined"],rel:["Aki Adagaki: childhood friend and love interest","Yoshino Koiwai: ally","Neko Fujinomiya: pursued by her"]},
+"masamune/aki-adagaki":{jp:"安達垣 愛姫",voice:"Ayaka Ohashi",who:"High school student, Class 2-A",about:["She's brutal toward men, which earned her the nickname “Cruel Princess”. Her hatred of men comes from Masamune's sudden departure, which broke her heart. She had a childhood crush on him, and found chubby Masamune cute.","She comes from a well-off family, and she's proud and persistent."],traits:["Brutal","Proud","Persistent"],rel:["Masamune Makabe: childhood friend and love interest","Yoshino Koiwai: her maid","Kanetsugu: her fiancé"],fact:"She's prone to hypoglycemia and has to eat large quantities of food."},
+"masamune/yoshino-koiwai":{jp:"小岩井 吉乃",voice:"Inori Minase",who:"Aki's maid and classmate",about:["Her family has served the Adagaki family for 300 years. She looks clumsy and shy, but she's actually deceptive and cold, and can hurt Aki without hesitation.","Eight years earlier she disguised herself as Aki, rejected Masamune and gave him the “Pig's foot” nickname out of jealousy. She regrets it, allies with Masamune and falls for him, though her confession is refused. She tries to reunite Masamune and Aki."],traits:["Deceptive","Regretful"],rel:["Aki Adagaki: serves her","Masamune Makabe: ally she falls for"]},
+"masamune/neko-fujinomiya":{jp:"藤ノ宮 寧子",voice:"Suzuko Mimori",who:"Transfer student in Masamune's class",about:["Persistent and cheerful. She supports Masamune's choices even after he rejects her, and enjoys the chase of falling in love.","She comes from a wealthy family and is frail. She was chubby as a child and fell in love with Masamune then. She had surgery for her condition, though it can't cure it, and she hides it behind a cheerful front."],traits:["Cheerful","Persistent"],rel:["Masamune Makabe: pursues him","Aki Adagaki: rival","Kojuro Shuri: has a crush on her"],fact:"Aki and Yoshino nicknamed her the “Commando Princess”."},
+"masamune/kojuro-shuri":{jp:"朱里 小十郎",voice:"Saori Hayami",who:"Masamune's best friend, Class 2-B",about:["He looks like a girl but is a boy, and the series jokes about it often. He's shy about expressing his feelings and skilled at making sweets and pastries.","He helped Masamune choose sweets for Aki for White Day, and appeared as Snow White in the school play."],traits:["Shy","Great at baking"],rel:["Masamune Makabe: best friend","Neko Fujinomiya: has a crush on her"]},
+"masamune/tae-futaba":{jp:"双葉 妙",voice:"Azusa Tadokoro",who:"Class representative, Class 2-B",about:["The class rep. She's organized, and plans class activities and proficiency tests. She proposed the Snow White play for the Yasaka Festival.","She later admits she had feelings for Masamune, but says she's glad to have friends."],traits:["Organized"],rel:["Masamune Makabe: friend, once confessed to him","Kojuro Shuri: friend"]},
+
+"married-couple/jiro-yakuin":{jp:"薬院 次郎",voice:"Seiichiro Yamashita",who:"Third-year high school student",about:["An awkward introvert with self-esteem issues, but kind and hardworking at heart. He prefers gaming on his handheld console to talking to people.","He's forced to pair up with Akari in the school's couples training program. His real goal is to pair with his childhood friend Shiori. In middle school he meant to confess to her but stopped when she accidentally friend-zoned him. As the training goes on, he develops deeper feelings for Akari, which confuses him."],traits:["Introverted","Insecure","Kind"],rel:["Akari Watanabe: training partner","Shiori Sakurazaka: childhood friend, unrequited crush","Sadaharu Kamo: best friend"]},
+"married-couple/akari-watanabe":{jp:"渡辺 星",voice:"Saori Onishi",who:"Third-year high school student, a gyaru",about:["Extroverted and confident on the surface, but deep down sweet, shy and kind to her friends and loved ones.","She wanted to be Minami Tenjin's partner in the training, and was willing to do almost anything, including acting like a well-behaved newlywed with Jiro. Her crush on Minami fades and she falls for Jiro. Jiro was her first and only kiss."],traits:["Confident","Shy inside","Kind"],rel:["Jiro Yakuin: training partner","Sachi Takamiya and Natsumi Ohashi: best friends","Shu Terafune: has a crush on her"]},
+
+"gatherer/takeru-kamishiro":{jp:"タケル",voice:"Nobunaga Shimazaki",who:"Material harvester and adventurer",about:["A former 28-year-old Japanese office worker, now a material harvester and guild master of the adventuring party Soukoku-no-Dan.","He has extraordinary magical power and a rare skill that finds valuable items. He's a pacifist, easygoing and overly kind, with no interest in fame or recognition. He enjoys good food and a relaxed life."],traits:["Easygoing","Kind","Pacifist"],rel:["Bee: companion","Brolite: friend and traveling partner"]},
+"gatherer/bee":{jp:"ビー",voice:"Ayasa Ito",who:"Ancient dragon hatchling",about:["A hatchling of the Ancient Dragon lineage, born when Takeru channeled his magical power to help it hatch.","Petite and adorable, with a huge appetite, and it's dependable and capable. It's skilled in spirit arts and exploration, and it's the party's mascot."],traits:["Adorable","Hungry","Capable"],rel:["Takeru Kamishiro: companion","Brolite: party member"]},
+"gatherer/brolite":{jp:"ブロライト",voice:"Makoto Koichi",who:"Elf and party fighter",about:["An elf, with graceful features, but playful and mischievous. Brolite acts and speaks like a young boy, is energetic and carefree and often ends up dirty, and has a hearty appetite.","A capable fighter who wields dual short swords. Brolite meets Takeru on his journey through the world of Madeus and becomes a key member of the party."],traits:["Playful","Energetic","Fighter"],rel:["Takeru Kamishiro: friend and traveling partner","Bee: party member"]},
+
+"alya/alisa-alya-kujo":{jp:"",voice:"Sumire Uesaka",who:"Student council beauty",about:["Half-Russian, aloof and cold on the surface, and a high achiever in class. Secretly she's in love with Masachika, and flirts with him in Russian, thinking he can't understand.","In Russia, her effort caused conflict with classmates who did the minimum. She dislikes being called “Princess”, and she's a candidate for student council president."],traits:["Aloof","High achiever","Secretly sweet"],rel:["Masachika Kuze: love interest","Yuki Suou: rival","Maria Kujo: older sister"],fact:"Her voice actor, Sumire Uesaka, also performs the ending songs as Alya."},
+"alya/masachika-kuze":{jp:"",voice:"",who:"Alya's seatmate",about:["He seems lazy and unmotivated, but he's capable and cares about other people. He hides his feelings for Alya.","His parents divorced, and he and his mother were exiled by the Suou family grandfather. He learned basic Russian to talk to a Russian girl he knew as a child."],traits:["Seems lazy","Capable","Caring"],rel:["Alya Kujo: love interest","Yuki Suou: younger sister, uses a different family name","Maria Kujo and Ayano Kimishima: friends"]},
+"alya/yuki-suou":{jp:"",voice:"",who:"Student council",about:["She enjoys teasing people and is competitive. She's Alya's rival for both the presidency and Masachika's attention.","She's part of the Suou family, whose grandfather pushes her to become president. She was student council president in middle school, and considers Masachika the secret greatest prodigy of the Suou family."],traits:["Teasing","Competitive"],rel:["Masachika Kuze: older brother","Alya Kujo: rival","Ayano Kimishima: ally"]},
+"alya/maria-kujo":{jp:"",voice:"",who:"Alya's older sister",about:["Teasing, and a quiet supporter of Alya's romance with Masachika, though she keeps it subtle because she's Alya's sister. She serves on the student council with Alya.","She once found a hypnosis book that led to a scene where she and Alya were hypnotized, and she later takes revenge on Masachika for that."],traits:["Teasing","Supportive"],rel:["Alya Kujo: younger sister","Masachika Kuze: feels she knows him from somewhere"]},
+"alya/nonoa-miyamae":{jp:"",voice:"",who:"Classmate in the presidential race",about:["Sayaka's best friend and teammate in the presidential race. She doesn't care about her own reputation and will spread gossip to help her friend.","She planted friends in the audience to whisper against Alya for being foreign."],traits:[],rel:["Sayaka: best friend","Alya Kujo: opponent"]},
+"alya/ayano-kimishima":{jp:"",voice:"",who:"Works for the Suou family",about:["Works for the Suou family and is Yuki's potential vice-president. She openly admires Yuki and is blunt, and she dislikes Masachika's slacker personality.","She told Masachika that his grandfather was angry about his support for Alya, and she competed with Alya to nurse him when he was ill."],traits:["Blunt"],rel:["Yuki Suou: employer and ally","Masachika Kuze: rival for his attention","Alya Kujo: competitor"]},
+
+"iceblade/ray-white":{jp:"レイ=ホワイト",voice:"Junya Enoki",who:"The Iceblade Sorcerer",about:["The Iceblade Sorcerer who won a major war. He enrolls at Arnold Academy disguised as a commoner, where people from higher-class backgrounds look down on him."],traits:[],rel:[]},
+"iceblade/amelia-rose":{jp:"アメリア=ローズ",voice:"Iori Saeki",who:"Main cast",about:[],traits:[],rel:[]},
+"iceblade/elisa-griffith":{jp:"エリサ=グリフィス",voice:"Nana Harumura",who:"Main cast",about:[],traits:[],rel:[]},
+"iceblade/rebecca-bradley":{jp:"レベッカ=ブラッドリィ",voice:"Azumi Waki",who:"Main cast",about:[],traits:[],rel:[]}
+};
 var CNOTES={};
+
+function cdl(a,c,sl){
+ var I=CINFO[a.slug+'/'+sl]||{};
+ var dl='<dl><dt>Role</dt><dd>'+esc(I.who||c[1])+'</dd>'+(I.jp?'<dt>Japanese</dt><dd>'+esc(I.jp)+'</dd>':'')+(I.voice?'<dt>Voice</dt><dd>'+esc(I.voice)+'</dd>':'')+'<dt>From</dt><dd><a href="#/'+encodeURIComponent(a.slug)+'">'+esc(a.title)+'</a></dd></dl>';
+ var h=dl;
+ if(I.about&&I.about.length)h+='<h3 class="sub" style="margin-top:16px">Who they are</h3>'+I.about.map(function(t){return '<p class="cabout">'+esc(t)+'</p>'}).join('');
+ if(I.traits&&I.traits.length)h+='<div class="tags" style="margin-top:12px">'+I.traits.map(function(t){return '<span>'+esc(t)+'</span>'}).join('')+'</div>';
+ if(I.rel&&I.rel.length)h+='<h3 class="sub" style="margin-top:16px">Relationships</h3><ul class="clean crel">'+I.rel.map(function(t){return '<li>'+esc(t)+'</li>'}).join('')+'</ul>';
+ if(I.fact)h+='<div class="take"><b>Fun fact</b>'+esc(I.fact)+'</div>';
+ return h}
 function charPage(a,ci){
- var c=a.chars[ci],sl=slug(c[0]),p='images/'+a.slug+'/characters/'+sl+'.jpg',note=CNOTES[a.slug+'/'+sl];
+ var c=a.chars[ci],sl=slug(c[0]),p='images/'+a.slug+'/characters/'+(c[2]||sl)+'.jpg',note=CNOTES[a.slug+'/'+sl];
  var pv=a.chars[(ci-1+a.chars.length)%a.chars.length],nx=a.chars[(ci+1)%a.chars.length];
  var lk=function(x){return '#/c/'+a.slug+'/'+slug(x[0])};
  return '<section class="show" style="--c:'+a.color+';border-top:0;padding-top:30px">'
  +'<div class="banner"><div class="ov"><div class="rk">'+esc(a.title)+'</div><h1>'+esc(c[0])+'</h1><div class="jp">'+esc(c[1])+'</div></div></div>'
- +'<div class="cols"><div class="box"><h3>About</h3><dl><dt>Role</dt><dd>'+esc(c[1])+'</dd><dt>From</dt><dd><a href="#/'+encodeURIComponent(a.slug)+'">'+esc(a.title)+'</a></dd></dl>'
+ +'<div class="cols"><div class="box"><h3>About</h3>'+cdl(a,c,sl)
  +(note?'<div class="take"><b>My thoughts</b>'+esc(note)+'</div>':'')+'</div>'
  +'<div class="box cportrait">'+ph(p,c[0])+'</div></div>'
  +'<h3 class="sub">More from '+esc(a.title)+'</h3><div class="tchips">'+a.chars.map(function(x,i){return i===ci?'':'<a class="tchip" style="--c:'+a.color+'" href="'+lk(x)+'"><span>'+esc(x[0])+'</span></a>'}).join('')+'</div></section>'
